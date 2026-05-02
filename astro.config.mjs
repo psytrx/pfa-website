@@ -36,6 +36,10 @@ export default defineConfig({
           items: ["printers/tiny-m", "printers/tiny-t"],
         },
       ],
+      editLink: {
+        baseUrl:
+          "https://github.com/psytrx/pfa-website/edit/main/src/content/docs/",
+      },
       components: {
         Footer: "./src/components/CustomFooter.astro",
       },
