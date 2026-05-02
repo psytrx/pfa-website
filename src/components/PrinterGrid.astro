@@ -23,8 +23,8 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
       <section>
         <h2>{label}</h2>
         <div class="printer-grid">
-          {items.map(({ data }) => (
-            <a href={data.link} class="printer-card">
+          {items.map(({ id, data }) => (
+            <a href={`/printers/${id}`} class="printer-card">
               <Image
                 src={data.image}
                 alt={data.title}
