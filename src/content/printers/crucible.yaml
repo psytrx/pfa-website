@@ -1,0 +1,7 @@
+title: Crucible
+subline: Triple leadscrews? In my V0?
+description: A V0 mod inspired by the Trident. Converts the bed from a single-leadscrew cantilevered mount to a three-leadscrew mount and enables automatic bed leveling with Klicky or SideSwipe.
+image: /images/crucible-hero.png
+link: https://github.com/PrintersForAnts/Crucible
+category: v0-mods
+order: 3
