@@ -1,0 +1,96 @@
+---
+import { getCollection } from "astro:content";
+
+const printers = await getCollection("printers");
+const sorted = printers.sort((a, b) => a.data.order - b.data.order);
+
+const categories: Record<string, string> = {
+  "scratch-builds": "Scratch Builds",
+  "v0-mods": "V0 Mods",
+  "barely-bigger": "Barely Bigger Mini Printers",
+};
+
+const grouped = Object.entries(categories).map(([key, label]) => ({
+  label,
+  items: sorted.filter((p) => p.data.category === key),
+}));
+---
+
+<div class='group-grid'>
+{
+  grouped.map(({ label, items }) => (
+    <section class='group-section'>
+      <h2>{label}</h2>
+
+      <div class="printer-grid">
+        {items.map(({ data }) => (
+          <a href={data.link} class="printer-card">
+            <img src={data.image} alt={data.title} width="450" height="300" />
+            <div class="printer-card-body">
+              <h3>
+                {data.title} — {data.subline}
+              </h3>
+              <p>{data.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))
+}
+</div>
+
+<style>
+  .group-grid {
+    display: grid;
+    grid-gap: 2rem;
+  }
+
+  .group-section {
+    display: grid;
+    grid-gap: 0.5rem;
+  }
+
+  .printer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .printer-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s;
+  }
+
+  .printer-card:hover {
+    border-color: var(--sl-color-gray-2);
+  }
+
+  .printer-card img {
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+    background: var(--sl-color-gray-6);
+  }
+
+  .printer-card-body {
+    padding: 1rem;
+  }
+
+  .printer-card-body h3 {
+    margin: 0 0 0.5rem;
+    font-size: var(--sl-text-h4);
+  }
+
+  .printer-card-body p {
+    margin: 0;
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+  }
+</style>
