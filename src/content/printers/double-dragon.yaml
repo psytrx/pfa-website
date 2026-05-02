@@ -1,7 +1,7 @@
 title: Double Dragon
 subline: Double the filament, double the fun.
 description: A V0 mod to add Independent Dual Extrusion (IDEX). X0 for short. X0 adds a second printhead to a V0 to enable multi-color prints, multi-material prints, and even overhangs atop dissolvable supports.
-image: /images/double-dragon-hero.png
+image: ../../assets/printers/double-dragon-hero.png
 link: https://github.com/zruncho3d/double-dragon
 category: v0-mods
 order: 2

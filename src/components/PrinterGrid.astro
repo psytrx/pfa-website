@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 
 const printers = await getCollection("printers");
 const sorted = printers.sort((a, b) => a.data.order - b.data.order);
@@ -16,16 +17,19 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
 }));
 ---
 
-<div class='group-grid'>
 {
   grouped.map(({ label, items }) => (
-    <section class='group-section'>
+    <section>
       <h2>{label}</h2>
-
       <div class="printer-grid">
         {items.map(({ data }) => (
           <a href={data.link} class="printer-card">
-            <img src={data.image} alt={data.title} width="450" height="300" />
+            <Image
+              src={data.image}
+              alt={data.title}
+              widths={[450]}
+              sizes="450px"
+            />
             <div class="printer-card-body">
               <h3>
                 {data.title} — {data.subline}
@@ -38,7 +42,6 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
     </section>
   ))
 }
-</div>
 
 <style>
   .group-grid {

@@ -1,7 +1,7 @@
 title: Tiny-M
 subline: Not fat, just big-boned.
 description: A V0 scaled up to 2020 extrusions, with a slightly-larger 150mm³ (and unofficially 190mm³) build volume.
-image: /images/tiny-m-hero.png
+image: ../../assets/printers/tiny-m-hero.png
 link: https://github.com/gsl12/Tiny-M
 category: barely-bigger
 order: 1

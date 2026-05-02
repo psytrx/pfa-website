@@ -1,0 +1,20 @@
+---
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<Default>
+  <slot />
+</Default>
+<p class="pfa-disclaimer">
+  Inspired by Voron Design, but neither endorsed by nor officially part of Voron
+  Design.
+</p>
+
+<style>
+  .pfa-disclaimer {
+    text-align: center;
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    margin: 0;
+  }
+</style>

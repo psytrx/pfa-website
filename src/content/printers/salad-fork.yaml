@@ -1,7 +1,7 @@
 title: Salad Fork
 subline: Honey, I shrunk the Trident!
 description: A from-scratch build using 1515 extrusions like the V0, but with the design of a Trident scaled down. Uses a triple-leadscrew mount for the bed and enables automatic bed leveling with Klicky.
-image: /images/salad-fork-hero.png
+image: ../../assets/printers/salad-fork-hero.png
 link: https://github.com/PrintersForAnts/Salad_Fork
 category: scratch-builds
 order: 2

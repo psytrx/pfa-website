@@ -1,7 +1,7 @@
 title: Tri-Zero
 subline: The triple-belted-Z V0 mod.
 description: A Voron Zero mod to add Automatic Bed Leveling - under $100, in only a few hours. Provides the quality-of-life benefits of flying-gantry mods like F-Zero, but in a fraction of the build time, at much lower cost.
-image: /images/tri-zero-hero.png
+image: ../../assets/printers/tri-zero-hero.png
 link: https://github.com/zruncho3d/tri-zero
 category: v0-mods
 order: 5

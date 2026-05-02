@@ -1,7 +1,7 @@
 title: F-Zero
 subline: Perfect first layers every time.
 description: A V0 mod for a flying gantry. Uses quad gantry leveling, just like a Voron 2.4 or a Micron. (The main difference from the Micron is that the F-Zero is a V0 mod, and the Micron is a from-scratch build.)
-image: /images/f-zero-hero.png
+image: ../../assets/printers/f-zero-hero.png
 link: https://github.com/zruncho3d/f-zero
 category: v0-mods
 order: 4
