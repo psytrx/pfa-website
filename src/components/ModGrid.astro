@@ -1,0 +1,154 @@
+---
+import { marked } from "marked";
+
+interface Props {
+  mods: {
+    id: string;
+    name: string;
+    author: string;
+    readme: string | null;
+    readmeExtension: string | null;
+    githubUrl: string;
+  }[];
+}
+
+const { mods } = Astro.props;
+
+const byAuthor = mods.reduce<Record<string, typeof mods>>((acc, mod) => {
+  const key = mod.author || "Other";
+  (acc[key] ??= []).push(mod);
+  return acc;
+}, {});
+
+const sortedAuthors = Object.keys(byAuthor).sort((a, b) => {
+  if (a === "Other") return 1;
+  if (b === "Other") return -1;
+  return a.localeCompare(b);
+});
+---
+
+<div class="mod-grid">
+  {sortedAuthors.map((author) => (
+    <section>
+      <h3>{author}</h3>
+      <div class="mod-cards">
+        {byAuthor[author].map((mod) => (
+          <div class="mod-card">
+            <div class="mod-card-header">
+              <h4>{mod.name}</h4>
+              <a href={mod.githubUrl} class="mod-github-link" target="_blank" rel="noopener">
+                View on GitHub
+              </a>
+            </div>
+            {mod.readme && mod.readmeExtension === "md" ? (
+              <div class="mod-readme" set:html={marked(mod.readme)} />
+            ) : mod.readme ? (
+              <pre class="mod-readme-plain">{mod.readme}</pre>
+            ) : (
+              <p class="mod-no-readme">No description available.</p>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  ))}
+</div>
+
+<style>
+  .mod-grid {
+    display: grid;
+    gap: 2rem;
+  }
+
+  .mod-grid h3 {
+    font-size: var(--sl-text-h4);
+    margin: 0;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    padding-bottom: 0.5rem;
+  }
+
+  .mod-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .mod-card {
+    border: 1px solid var(--sl-color-gray-5);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .mod-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mod-card-header h4 {
+    margin: 0;
+    font-size: var(--sl-text-lg);
+  }
+
+  .mod-github-link {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .mod-github-link:hover {
+    text-decoration: underline;
+  }
+
+  .mod-readme {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    overflow-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .mod-readme :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+  }
+
+  .mod-readme :global(h1),
+  .mod-readme :global(h2),
+  .mod-readme :global(h3) {
+    font-size: var(--sl-text-md);
+    margin: 0.5rem 0 0.25rem;
+  }
+
+  .mod-readme :global(p) {
+    margin: 0.25rem 0;
+  }
+
+  .mod-readme :global(ul),
+  .mod-readme :global(ol) {
+    margin: 0.25rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .mod-readme-plain {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-2);
+    margin: 0;
+    white-space: pre-wrap;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+
+  .mod-no-readme {
+    font-size: var(--sl-text-sm);
+    color: var(--sl-color-gray-3);
+    font-style: italic;
+    margin: 0;
+  }
+</style>

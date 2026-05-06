@@ -14,7 +14,9 @@
   "dependencies": {
     "@astrojs/starlight": "^0.38.4",
     "astro": "^6.1.9",
-    "sharp": "^0.34.5"
+    "marked": "^18.0.3",
+    "sharp": "^0.34.5",
+    "yaml": "^2.8.4"
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^8.59.1",

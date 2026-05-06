@@ -5,3 +5,7 @@ image: ../../assets/printers/tiny-m-hero.png
 link: https://github.com/gsl12/Tiny-M
 category: barely-bigger
 order: 1
+mods:
+  repo: gsl12/Tiny-M
+  path: "usermods/*/"
+  branch: master

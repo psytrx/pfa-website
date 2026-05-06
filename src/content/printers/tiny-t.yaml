@@ -5,3 +5,7 @@ image: ../../assets/printers/tiny-t-hero.png
 link: https://github.com/PrintersForAnts/Tiny-T
 category: barely-bigger
 order: 2
+mods:
+  repo: PrintersForAnts/Tiny-T
+  path: "MODS/*/"
+  branch: main

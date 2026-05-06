@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import ModGrid from "../../../components/ModGrid.astro";
+
+export async function getStaticPaths() {
+  const printers = await getCollection("printers");
+  return printers
+    .filter((p) => p.data.mods)
+    .map((p) => ({
+      params: { id: p.id },
+      props: { printerId: p.id, title: p.data.title, repo: p.data.mods.repo },
+    }));
+}
+
+const { printerId, title, repo } = Astro.props;
+const allMods = await getCollection("printer-mods");
+const mods = allMods
+  .filter((m) => m.data.printerId === printerId)
+  .sort((a, b) => {
+    if (a.data.author && b.data.author) {
+      const cmp = a.data.author.localeCompare(b.data.author);
+      if (cmp !== 0) return cmp;
+    }
+    return a.data.name.localeCompare(b.data.name);
+  });
+---
+
+<StarlightPage frontmatter={{ title: `${title} Mods` }}>
+  <p>Community-contributed modifications for the {title}. Sourced from the <a href={`https://github.com/${repo}`}>GitHub repository</a>.</p>
+  <ModGrid mods={mods.map((m) => m.data)} />
+</StarlightPage>

@@ -5,3 +5,7 @@ image: ../../assets/printers/tri-zero-hero.png
 link: https://github.com/zruncho3d/tri-zero
 category: v0-mods
 order: 5
+mods:
+  repo: zruncho3d/tri-zero
+  path: "Mods/*/*/"
+  branch: main

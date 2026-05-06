@@ -5,3 +5,7 @@ image: ../../assets/printers/micron-hero.png
 link: https://github.com/hartk1213/Micron
 category: scratch-builds
 order: 1
+mods:
+  repo: PrintersForAnts/Micron
+  path: "Mods/*/*/"
+  branch: main

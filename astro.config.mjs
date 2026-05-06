@@ -21,7 +21,16 @@ export default defineConfig({
       sidebar: [
         {
           label: "Scratch Builds",
-          items: ["printers/micron", "printers/salad-fork"],
+          items: [
+            {
+              label: "Micron",
+              items: [
+                { slug: "printers/micron" },
+                { label: "Micron Mods", link: "/printers/micron/mods/" },
+              ],
+            },
+            "printers/salad-fork",
+          ],
         },
         {
           label: "V0 Mods",
@@ -30,14 +39,47 @@ export default defineConfig({
             "printers/double-dragon",
             "printers/crucible",
             "printers/f-zero",
-            "printers/tri-zero",
-            "printers/pandoras-box",
-            "printers/hex-zero",
+            {
+              label: "Tri-Zero",
+              items: [
+                { slug: "printers/tri-zero" },
+                { label: "Tri-Zero Mods", link: "/printers/tri-zero/mods/" },
+              ],
+            },
+            {
+              label: "Pandora's Box",
+              items: [
+                { slug: "printers/pandoras-box" },
+                { label: "Pandora's Box Mods", link: "/printers/pandoras-box/mods/" },
+              ],
+            },
+            {
+              label: "Hex-Zero",
+              items: [
+                { slug: "printers/hex-zero" },
+                { label: "Hex-Zero Mods", link: "/printers/hex-zero/mods/" },
+              ],
+            },
           ],
         },
         {
           label: "Barely Bigger Mini Printers",
-          items: ["printers/tiny-m", "printers/tiny-t"],
+          items: [
+            {
+              label: "Tiny-M",
+              items: [
+                { slug: "printers/tiny-m" },
+                { label: "Tiny-M Mods", link: "/printers/tiny-m/mods/" },
+              ],
+            },
+            {
+              label: "Tiny-T",
+              items: [
+                { slug: "printers/tiny-t" },
+                { label: "Tiny-T Mods", link: "/printers/tiny-t/mods/" },
+              ],
+            },
+          ],
         },
       ],
       editLink: {
