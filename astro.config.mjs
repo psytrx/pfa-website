@@ -7,8 +7,9 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "PrintersForAnts",
+      favicon: "./src/assets/anthead-hex.png",
       logo: {
-        src: "./src/assets/logo.png",
+        src: "./src/assets/anthead-hex.png",
       },
       social: [
         {
