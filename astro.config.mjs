@@ -7,6 +7,9 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "PrintersForAnts",
+      logo: {
+        src: "./src/assets/logo.png",
+      },
       social: [
         {
           icon: "github",
