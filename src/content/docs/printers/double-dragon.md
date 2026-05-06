@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-[View on GitHub](https://github.com/zruncho3d/double-dragon){:target="\_blank"}
+[View on GitHub](https://github.com/zruncho3d/double-dragon)
 
 # Double Dragon
 
@@ -35,7 +35,7 @@ _This repo includes everything you need to build your own X0, including CAD and 
 
 ![gantry path](/images/printers/double-dragon/Renders/alpha-1/gantry_path_transparent.png)
 
-### Yes, it's real, and yes, it prints. X0.000 in progress:
+### Yes, it's real, and yes, it prints. X0.000 in progress
 
 ![front](/images/printers/double-dragon/Images/alpha-1/front.jpg)
 
@@ -73,7 +73,7 @@ You'll need a second toolhead.
 - Toolhead boards are highly recommended, whether with-chip like the [Huvud](https://github.com/bondus/KlipperToolboard) or chip-less ([Pancake Board](https://github.com/christophmuellerorg/voron_0_pancake_board), [Timmit's V0 Umbilical](https://github.com/VoronDesign/Voron-Hardware/tree/master/V0-Umbilical), …).
 - Anything that changes the X carriage will NOT work, such as the [Mini After-LGX-lite](https://www.bondtech.se/2021/12/27/voron-v0-1-toolhead-setup-for-lgx-lite/), at least until any changes are ported over.
 
-#### Widen all the things!
+#### Widen all the things
 
 - **100mm-wider extrusions** - 4x 300mm; [MakerBeamXL](https://www.amazon.com/MakerBeam-XL-Anodized-300x15x15mm-Pieces/dp/B06XJ5G5QY), Misumi, or whatever you prefer. Or, keep the colorful extrusions from a kit and augment with 8x 50mm extensions, joined by M3 threaded rods, 3mm shafts, or long M3 screws.
 - **100mm-longer X rail (250mm)** - a medium preload MGN9 rail with two MGN9C carriages is recommended, as it reduces the potential for toolhead wobble. Ask the seller for medium preload at purchase time and ask them to put both carriages on the rail. Make sure to order two carriages! [CNA rail and carriages on AliExpress](https://www.aliexpress.com/item/32773296501.html?spm=a2g0s.12269583.0.0.4ea2494dwPIVR2)
@@ -85,7 +85,7 @@ The panel order looks like this, from SendCutSend:
 
 ![back](/images/printers/double-dragon/Images/alpha-1/scs_order.png)
 
-#### Add more drives!
+#### Add more drives
 
 This mod uses two Y motors for simplicity in a `hybrid-corexy` config. You'll need:
 
@@ -103,7 +103,7 @@ Note, parts above are _just_ for drives, not for the toolhead. Those will add to
 
 Also: **additional stepper driver ports**. Octopus, Spider, Fly, GTR, S6, 2x SKR Mini/Pico, … Klipper doesn’t care. Use whatever you’ve got that gives you added ports. You need an extra 2 stepper ports for Y motion and one extra stepper port for the second extruder, unless you go with a toolhead board.
 
-#### More power!!!
+#### More power
 
 The extra power draw of three more steppers, plus an extra toolhead heater, **absolutely** requires a more capable power supply than a stock V0, whether 100W for an AC bed or 150W for a DC bed. DO NOT run without known margin. If you're not sure, buy or borrow an inline power meter to confirm.
 

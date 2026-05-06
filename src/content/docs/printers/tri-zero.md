@@ -5,7 +5,7 @@ sidebar:
   order: 5
 ---
 
-[View on GitHub](https://github.com/zruncho3d/tri-zero){:target="\_blank"}
+[View on GitHub](https://github.com/zruncho3d/tri-zero)
 
 # Tri-Zero - a triple-belted-Z V0 mod
 
@@ -58,9 +58,13 @@ Join us on the [DoomCube Discord](https://discord.gg/doomcube) for any questions
 Or, just straight to detailed docs:
 
 - #### [Parts](PARTS.md): sourcing details
+
 - #### [Instructions](INSTRUCTIONS.md): build steps, prep, and more
+
 - #### [Plus50 size](PLUS50.md): sourcing and build notes for Plus50
+
 - #### [FAQ](FAQ.md): Common questions, answered
+
 - #### [Change](FAQ.md): Visual summary of past changes
 
 ## Overview and features

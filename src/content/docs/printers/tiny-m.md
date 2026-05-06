@@ -5,11 +5,11 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/gsl12/Tiny-M){:target="\_blank"}
+[View on GitHub](https://github.com/gsl12/Tiny-M)
 
 # Tiny-M
 
-### !!!!!!!!!!!!!! August 2023 !!!!!!!!!!!!!!
+### !!!!!!!!!!!!!! August 2023
 
 Due to a serious illness, I cannot continues the project.  
 Unfortunately i cannot tell, when i could work again.
@@ -25,7 +25,7 @@ It is based on [Voron V0](https://github.com/VoronDesign/Voron-0) .
 
 Bowden and direct drive extruder using [CroXY's Sailfin](https://github.com/CroXY3D/Sailfin-Extruder), [Annex Engineering's Sherpa Mini](https://github.com/Annex-Engineering/Sherpa_Mini-Extruder) or [Bondtech's LGX Lite](https://www.bondtech.se/product/lgx-lite-extruder-custom/) are now available.
 
-### Current Version is V4:
+### Current Version is V4
 
 Latest source whole printer: [Tiny-M V4 Onshape](https://cad.onshape.com/documents/f842588d372acab22a4ce687/w/3332acdd7c7bf7fc53ddefb6/e/ce1bfb58b96a9bb3b38b0502)
 

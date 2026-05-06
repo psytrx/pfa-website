@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/zruncho3d/DuelingZero){:target="\_blank"}
+[View on GitHub](https://github.com/zruncho3d/DuelingZero)
 
 ## Dueling Zero - a Dual Gantry V0 mod
 
@@ -34,16 +34,23 @@ Curious? Watch the first one print below!
 Tons of content. On this page:
 
 - #### [Releases](#releases): Visual release notes
+
 - #### [Overview](#overview): Why Dual Gantry?
+
 - #### [Sample Builds](#samplebuilds): Parts and sizes
+
 - #### [Links](#links), [Credits](#credits), and [Support](#support)
 
 ... and beyond, split into their own pages:
 
 - #### [Parts](PARTS.md): Parts list to build your own
+
 - #### [Instructions](INSTRUCTIONS.md): Instructions to print, assemble, and configure
+
 - #### [Software](SOFTWARE.md): Two toolheads in one workspace, explained
+
 - #### [FAQ](FAQ.md): Common questions, answered
+
 - #### [Archived v1](Archived-v1/REAMDE-v1.md): Prior design
 
 **Enjoy!** I hope this project inspires you to build something new, whether a D0 or your own design. -Z
@@ -242,7 +249,7 @@ Highlights of this particular build:
 
 The parts for this specific build are available at Desune's [Dueling Boops](https://github.com/desune2487/Dueling_Boops) repo. They are extremely similar to Zruncho's parallel implementation; the two influenced each other during development. Definitely take a look, as you can mix and match parts from this one, including the updated skirts and bed pieces.
 
-### Learn more!
+### Learn more
 
 If you've read this far, great, but there's more good stuff.
 

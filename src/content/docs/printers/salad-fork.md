@@ -5,7 +5,7 @@ sidebar:
   order: 2
 ---
 
-[View on GitHub](https://github.com/PrintersForAnts/Salad_Fork){:target="\_blank"}
+[View on GitHub](https://github.com/PrintersForAnts/Salad_Fork)
 
 # Salad Fork
 
@@ -42,6 +42,6 @@ Why go to the trouble of a whole new build? Well, Salad Fork features:
 
 _Warning:_ EU-1515 profiles with a large channel opening are not compatible with this design. Please double-check to make sure you are using extrusions with a smaller approxomately 4mm channel opening
 
-# Merch!
+# Merch
 
 Want to by a Salad Fork t-shirt? Go here! [Salad Fork Shirt](https://www.zazzle.com/salad_fork_shirt-235952482666288179)

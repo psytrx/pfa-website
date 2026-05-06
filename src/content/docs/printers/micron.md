@@ -5,7 +5,7 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/hartk1213/Micron){:target="\_blank"}
+[View on GitHub](https://github.com/hartk1213/Micron)
 
 ## Micron R1
 
@@ -25,7 +25,7 @@ sidebar:
   <a aria-label="Discord" href="">
 <img alt="Discord" src="https://img.shields.io/discord/825469421346226226?style=for-the-badge&logo=discord&logoColor=%2344d62c&label=Discord&labelColor=%2363666a&color=%2344d62c&link=https%3A%2F%2Fdiscord.gg%2Fdoomcube">
 </p>
-    
+
 [Discord](https://discord.gg/doomcube)
 
 [The official Micron BOM is here.](https://docs.google.com/spreadsheets/d/1caKSc-EukVpRgN67_by_hdzVPlExSRQ66j3OXlEmcCU)
@@ -60,7 +60,7 @@ If you want to purchase full kits there are 3 available (Kits are slowly updatin
 
 ## [R1 Change Log](https://github.com/PrintersForAnts/Micron/blob/main/R1_changeLog.md)
 
-<details> 
+<details>
    <summary>
     120x120 build
     </summary>
@@ -88,8 +88,9 @@ If you want to purchase full kits there are 3 available (Kits are slowly updatin
     <summary>
     180x180 build
     </summary>
-    
+
 ## Frame Extrusions
+
 Misumi Part #  |Qty | Notes
  ----|----|----|
 HFS3-1515-350 |4 | Blind holes need to be drilled

@@ -5,7 +5,7 @@ sidebar:
   order: 4
 ---
 
-[View on GitHub](https://github.com/zruncho3d/f-zero){:target="\_blank"}
+[View on GitHub](https://github.com/zruncho3d/f-zero)
 
 # F-Zero - an Evolved Voron Zero
 
@@ -79,7 +79,7 @@ Other benefits:
 - 2021-10-17: New Z joints, with KGLM-03 joints headed to GitHub. Sources noted below too.
 - 2021-10-05: Lots of parts added or moved around in GitHub, including many electronics spacers, the gantry wire organizers, and more.
 - 2021-09-25: [Zerofilter](https://github.com/zruncho3d/zerofilter) released! A filter that fits in the tightest of spaces, including under F-Zero’s bed. See
-- 2021-09-23: [Second serial request]((https://www.reddit.com/r/voroncorexy/comments/ptrhjn/serial_request_v01_fzero_discord_ericsson4763/) and Youtube video is up! Congrats Ericsson! Sweet printer with nice customized skirts, mini display, and panels.
+- 2021-09-23: [Second serial request]((<https://www.reddit.com/r/voroncorexy/comments/ptrhjn/serial_request_v01_fzero_discord_ericsson4763/>) and Youtube video is up! Congrats Ericsson! Sweet printer with nice customized skirts, mini display, and panels.
 - 2021-09-21: [First serial request](https://www.reddit.com/r/voroncorexy/comments/pt235s/serial_request_v01_zruncho1790_fzero_a_flying/) and Youtube videos are up! \
   [https://www.reddit.com/r/voroncorexy/comments/pt235s/serial_request_v01_zruncho1790_fzero_a_flying/]
 - 2021-09-17: Sample Klipper configs will have a mix of Protoloft’s Z-Calibration and Klicky macros. Full auto-calibration is working nicely now.
@@ -251,13 +251,13 @@ The vast majority of **printed** stuff is reused, too. Exceptions include:
 
 #### Q: Why? A: Why not?
 
-#### Q: Why not a V1 then? A: No leadscrew wobble. Auto-calibration. Cost.
+#### Q: Why not a V1 then? A: No leadscrew wobble. Auto-calibration. Cost
 
-#### Q: But isn’t there a belted V0 mod already that ditches leadscrew? A: Yes.
+#### Q: But isn’t there a belted V0 mod already that ditches leadscrew? A: Yes
 
 It’s from [thefpvgeek](https://github.com/theFPVgeek/VoronUsers/tree/master/printer_mods/theFPVgeek/v0-zbelt-mod), it’s great, and Zruncho used to use it. But you still need to manually calibrate. Z carriage screws are still hidden and a pain to retighten.
 
-#### Q: Can build a larger F0? A: Yes, with work.
+#### Q: Can build a larger F0? A: Yes, with work
 
 The design should support at least up to 50mm extra travel in each dimension, as a fully boxed frame, printed frame corners, and fully-supported bed yield a printer much more rigid than a regular V0. An “F-Zero Plus” with +50mm in some or all dimensions would be a great printer. A +50mm-X, +50mm-Y variant might even use some off-the-shelf beds which provide ~170mm of printable space in each dimension.
 
@@ -281,27 +281,27 @@ If enclosed:
 
 If that’s too much work, consider other Voron-derived/inspired small-printer choices at [www.3dprintersforants.com](www.3dprintersforants.com).
 
-#### Q: Aren’t lead screws, especially the integrated ones with V0.1, just fine? A: Yes.
+#### Q: Aren’t lead screws, especially the integrated ones with V0.1, just fine? A: Yes
 
 Lead screws are fine. A stock V0 prints amazingly well. QGL is a quality-of-life improvement, but by ensuring calibration, is also a quality-of-printing improvement too.
 
-#### Q: Well, what are the downsides? A: Cost + complexity.
+#### Q: Well, what are the downsides? A: Cost + complexity
 
 - Cost of additional components: 3x additional motor drivers + board + belts + pulleys + probe switch.
 - Additional build time for each Z drive.
 - Additional overall complexity and stuff to break.
 
-#### Q: So it’s more expensive, for the same print volume, with greater complexity? A: Yes.
+#### Q: So it’s more expensive, for the same print volume, with greater complexity? A: Yes
 
 If you’re on a budget and optimizing for print volume or simplicity, there are many other choices for you.
 
 If you like the idea of automatic bed tramming, this may be for you.
 
-#### Q: I want to build one. How can I learn more? A: A few ways.
+#### Q: I want to build one. How can I learn more? A: A few ways
 
 - Go to `#flying-zero` on the [DoomCube Discord](https://discord.gg/doomcube). Share your idea and progress there!
 
-#### Q: Can I apply the Double Dragon mod to an F-Zero? A: Yes, with lots of work, and you might regret it.
+#### Q: Can I apply the Double Dragon mod to an F-Zero? A: Yes, with lots of work, and you might regret it
 
 [Double Dragon](https://github.com/zruncho3d/double-dragon) is a Voron Zero mod to add Independent Dual Extrusion (IDEX) to a V0-size printer (called “X0”). By default, X0 adds 100mm of width, while F-Zero adds 50mm of depth.
 
@@ -314,6 +314,6 @@ In theory, you could combine these two mods… but:
 
 If you really want X0 with automatic bed leveling, [Tri-Zero](https://github.com/zruncho3d/tri-zero) is probably a better choice, because the extra weight of the longer X rail and additional toolhead is borne by the frame, not a flying gantry.
 
-#### Q: Why do the idlers have formed threads, vs the usual heatsets? A: Alignment.
+#### Q: Why do the idlers have formed threads, vs the usual heatsets? A: Alignment
 
 The formed thread helps to ensure that the idler stays perfectly parallel to the drive pulley; heatsets enable misalignment, and this is one place you don’t want misalignment causing premature belt wear.

@@ -5,7 +5,7 @@ sidebar:
   order: 6
 ---
 
-[View on GitHub](https://github.com/masturmynd/pandoras_box/){:target="\_blank"}
+[View on GitHub](https://github.com/masturmynd/pandoras_box/)
 
 # Pandoras_Box
 

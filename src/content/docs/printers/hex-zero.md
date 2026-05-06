@@ -5,7 +5,7 @@ sidebar:
   order: 7
 ---
 
-[View on GitHub](https://github.com/Alexander-T-Moss/Hex-Zero){:target="\_blank"}
+[View on GitHub](https://github.com/Alexander-T-Moss/Hex-Zero)
 
 # &#x2B22; Hex-Zero &#x2B22;
 
