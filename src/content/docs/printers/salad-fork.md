@@ -9,7 +9,7 @@ sidebar:
 
 # Salad Fork
 
-<img src="/images/printers/salad-fork/images/salad-fork-hero-1.1.png" width=300/>
+![Salad Fork](../../../assets/printers/salad-fork/images/salad-fork-hero-1.1.png)
 
 The Salad Fork is based on the [Trident][tridentURL] scaled down to use 1515 aluminum extrusions for the frame instead of 2020.
 

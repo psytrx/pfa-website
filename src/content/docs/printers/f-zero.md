@@ -26,7 +26,7 @@ L.e.o.p.a.r.d, finn, Kayos Maker, hartk, ericsson, sci, and more.
 
 ### → [Get Support!](https://discord.gg/doomcube) (#flying-zero on DoomCube Discord)
 
-![picture](/images/printers/f-zero/Renders/iso.png)
+![F-Zero iso render](../../../assets/printers/f-zero/Renders/iso.png)
 
 Join us on the [DoomCube Discord](https://discord.gg/doomcube) for the latest info and any questions.
 

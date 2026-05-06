@@ -13,9 +13,7 @@ sidebar:
 
 Tiny-T is a Voron Trident with build volume 150mm^3.
 
-<p align="center">
-  <img width="600" src="/images/printers/tiny-t/images/new_image1.png">
-</p>
+![Tiny-T](../../../assets/printers/tiny-t/images/new_image1.png)
 
 Source: <https://github.com/VoronDesign/Voron-Trident>
 

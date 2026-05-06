@@ -16,7 +16,7 @@ Unfortunately i cannot tell, when i could work again.
 
 [V5 beta](https://github.com/gsl12/Tiny-M-V5-beta)
 
-<img src="/images/printers/tiny-m/images/tiny-m_v4.jpg" width="300">
+![Tiny-M v4](../../../assets/printers/tiny-m/images/tiny-m_v4.jpg)
 
 A compact printer with build volume: 150x150x150 mm
 
@@ -111,4 +111,4 @@ The [CroXY Discord](https://discord.gg/tmZkjWs) has a tiny-m channel where sever
 
 V3
 
-<img src="/images/printers/tiny-m/images/build_p2.jpg" width="200"> <img src="/images/printers/tiny-m/images/build_p3.jpg" width="200">
+![Build photo 2](../../../assets/printers/tiny-m/images/build_p2.jpg) ![Build photo 3](../../../assets/printers/tiny-m/images/build_p3.jpg)

@@ -9,7 +9,7 @@ sidebar:
 
 # Pandoras_Box
 
-![Pandoras_box_full](/images/printers/pandoras-box/Images/pandoras-box-hero.png)
+![Pandoras Box](../../../assets/printers/pandoras-box/Images/pandoras-box-hero.png)
 
 Pandora's Box is a modified version of the popular Voron V0 3D printer design. The printer has been enhanced with additional X and Y travel, a triple belted Z kinematic system, and an automatic bed tramming and meshing system.
 

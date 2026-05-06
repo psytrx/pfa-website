@@ -15,7 +15,7 @@ a Voron Zero mod to add Independent Dual Extrusion (IDEX). "X0" for short. **Now
 
 _This repo includes everything you need to build your own X0, including CAD and STLs for printed parts, DXFs for panels, a list of parts, and a sample Klipper config._ The .STEP file is now in the repo too.
 
-![front](/images/printers/double-dragon/Renders/alpha-1/front2.PNG)
+![front](../../../assets/printers/double-dragon/Renders/alpha-1/front2.PNG)
 
 ## Updates
 
@@ -25,41 +25,41 @@ _This repo includes everything you need to build your own X0, including CAD and 
 
 ## Alpha-1 Release 2021-12-31
 
-![front](/images/printers/double-dragon/Renders/alpha-1/front2.PNG)
+![front](../../../assets/printers/double-dragon/Renders/alpha-1/front2.PNG)
 
-![top](/images/printers/double-dragon/Renders/alpha-1/top3.png)
+![top](../../../assets/printers/double-dragon/Renders/alpha-1/top3.png)
 
-![back](/images/printers/double-dragon/Renders/alpha-1/iso.png)
+![back](../../../assets/printers/double-dragon/Renders/alpha-1/iso.png)
 
-![gantry iso](/images/printers/double-dragon/Renders/alpha-1/gantry_iso_2.png)
+![gantry iso](../../../assets/printers/double-dragon/Renders/alpha-1/gantry_iso_2.png)
 
-![gantry path](/images/printers/double-dragon/Renders/alpha-1/gantry_path_transparent.png)
+![gantry path](../../../assets/printers/double-dragon/Renders/alpha-1/gantry_path_transparent.png)
 
 ### Yes, it's real, and yes, it prints. X0.000 in progress
 
-![front](/images/printers/double-dragon/Images/alpha-1/front.jpg)
+![front](../../../assets/printers/double-dragon/Images/alpha-1/front.jpg)
 
-![top](/images/printers/double-dragon/Images/alpha-1/top.jpg)
+![top](../../../assets/printers/double-dragon/Images/alpha-1/top.jpg)
 
 Sample print with two extruders in one part, with brass and copper PLA.
 
-![alternating](/images/printers/double-dragon/Images/Prints/alternating_colors.png)
+![alternating](../../../assets/printers/double-dragon/Images/Prints/alternating_colors.png)
 
 Videos coming soon.
 
 ### Fun parts
 
-![Toolhead](/images/printers/double-dragon/Renders/alpha-1/toolhead_left_iso.png)
+![Toolhead](../../../assets/printers/double-dragon/Renders/alpha-1/toolhead_left_iso.png)
 
-![X Carriages iso section](/images/printers/double-dragon/Renders/alpha-1/x_carriage_iso_section.png)
+![X Carriages iso section](../../../assets/printers/double-dragon/Renders/alpha-1/x_carriage_iso_section.png)
 
-![X Carriages iso](/images/printers/double-dragon/Renders/alpha-1/x_carriages_iso.png)
+![X Carriages iso](../../../assets/printers/double-dragon/Renders/alpha-1/x_carriages_iso.png)
 
-![Octopus iso](/images/printers/double-dragon/Renders/alpha-1/octopus_iso.png)
+![Octopus iso](../../../assets/printers/double-dragon/Renders/alpha-1/octopus_iso.png)
 
-![Cable Channel End](/images/printers/double-dragon/Renders/alpha-1/cable_channel_end.png)
+![Cable Channel End](../../../assets/printers/double-dragon/Renders/alpha-1/cable_channel_end.png)
 
-![Y Belt Attachment](/images/printers/double-dragon/Renders/alpha-1/y_belt_attachment.png)
+![Y Belt Attachment](../../../assets/printers/double-dragon/Renders/alpha-1/y_belt_attachment.png)
 
 ## I'm interested. What do I need to do?
 
@@ -83,7 +83,7 @@ You'll need a second toolhead.
 
 The panel order looks like this, from SendCutSend:
 
-![back](/images/printers/double-dragon/Images/alpha-1/scs_order.png)
+![back](../../../assets/printers/double-dragon/Images/alpha-1/scs_order.png)
 
 #### Add more drives
 

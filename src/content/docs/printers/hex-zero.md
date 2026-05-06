@@ -11,7 +11,7 @@ sidebar:
 
 At its core, HX0 is a re-design of the [Tri-Zero](https://github.com/zruncho3d/tri-zero) Z motion, with a revised [Pandora Gantry](https://github.com/MasturMynd/Pandora). Without the aforementioned, none of this project would've been possible, so a great amount of thanks is due to [zruncho3d](https://github.com/zruncho3d) and [MasturMynd](https://github.com/MasturMynd) whom indirectly sent me down this rabbit hole!
 
-![Hex-Zero_Render](/images/printers/hex-zero/Images/Renders/Hex-Zero_Cover_Render.png)
+![Hex-Zero_Render](../../../assets/printers/hex-zero/Images/Renders/Hex-Zero_Cover_Render.png)
 
 [Latest Release](https://github.com/Alexander-T-Moss/Hex-Zero/releases)
 
@@ -44,7 +44,7 @@ Documentation is another frequently overlooked aspect of projects like these (an
 
 I want to extend a massive thanks to everyone who took a leap of faith in building and testing this project in its early stages, below is a collage of some HX0s built during the beta testing of this project :)
 
-![Beta Testing Collage](https://github.com/Alexander-T-Moss/Hex-Zero/blob/main/Images/Beta_Tester_Builds/Hex-Zero_Collage_23032024.jpg)
+![Beta Testing Collage](../../../assets/printers/hex-zero/Images/Beta_Tester_Builds/Hex-Zero_Collage_23032024.jpg)
 
 Credits in order of images left to right: Hud (_HX0.1_), Rahim Damji (_HX0.2_), Siboor (_HX0.3_), Spicy Pesto (_HX0.5_), Albino Deer (_HX0.4_), Sidjdosjsid (_HX0.ToBe_)
 

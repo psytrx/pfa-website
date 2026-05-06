@@ -17,8 +17,8 @@ Mod a [Voron Zero](https://vorondesign.com/voron0.2) or build one fresh!
 
 **D0** is the only open-source, fully-documented, reproducible-by-anyone Dual Gantry printer out there.
 
-| ![alt_text](/images/printers/dueling-zero/Renders/Printer/top-3.png) | ![alt_text](/images/printers/dueling-zero/Renders/Printer/iso-perspective.png) | ![](/images/printers/dueling-zero/Images/v3/cat_small.jpg) |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/top-3.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/iso-perspective.png) | ![](../../../assets/printers/dueling-zero/Images/v3/cat_small.jpg) |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
 
 In a Dual Gantry printer, the two heads are _fully_ independent. With **no extra weight** to drag around (vs an IDEX printer), and **no complexity added** to switch between heads (vs a toolchanger), Dual Gantry is a promising way to do more with a 3D printer.
 
@@ -26,7 +26,7 @@ Curious? Watch the first one print below!
 
 # [> > > Watch Video from first prints](https://youtu.be/2YI3_g30EwA)
 
-[![alt_text](/images/printers/dueling-zero/Images/first_print_thumbnail.png)](https://youtu.be/2YI3_g30EwA)
+[![alt_text](../../../assets/printers/dueling-zero/Images/first_print_thumbnail.png)](https://youtu.be/2YI3_g30EwA)
 (original v1 gantry shown)
 
 ## What's Here?
@@ -61,28 +61,28 @@ Tons of content. On this page:
 
 This release moves to a completely-new, symmetric, nested belt path:
 
-| ![alt_text](/images/printers/dueling-zero/Renders/Gantry/belts_detail.png) | ![alt_text](/images/printers/dueling-zero/Renders/Gantry/belts_detail_iso.png) | ![alt_text](/images/printers/dueling-zero/Renders/Gantry/belts_colorized.png) |
-| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/belts_detail.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/belts_detail_iso.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/belts_colorized.png) |
+| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
 
 The new [Pandora's Box](https://github.com/MasturMynd/Pandoras_Box/tree/main)-derived gantry design, created in close collaboration with `Desune` on Discord, has far fewer unique parts, adds travel, and enables wider toolhead compatibility.
 
-| ![alt_text](/images/printers/dueling-zero/Renders/Gantry/latest_over_the_top_blur_40_022.png) | ![alt_text](/images/printers/dueling-zero/Renders/Gantry/bottom_with_wires.png) | ![alt_text](/images/printers/dueling-zero/Renders/Gantry/top_with_wires.png) |
-| --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/latest_over_the_top_blur_40_022.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/bottom_with_wires.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/top_with_wires.png) |
+| ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
 
 Here's the side-by-side comparison from above, with v1 on left, and new v3 on right:
 
-| ![alt_text](/images/printers/dueling-zero/Archived_v1/Renders/top-2.png) | ![alt_text](/images/printers/dueling-zero/Renders/Printer/top-3.png) |
-| ------------------------------------------------------------------------ | -------------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Archived_v1/Renders/top-2.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/top-3.png) |
+| -------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 
 Or, in reality:
 
-| ![alt_text](/images/printers/dueling-zero/Images/v3/v1_iso.jpg) | ![alt_text](/images/printers/dueling-zero/Images/v3/v3_iso.jpg) |
-| --------------------------------------------------------------- | --------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Images/v3/v1_iso.jpg) | ![alt_text](../../../assets/printers/dueling-zero/Images/v3/v3_iso.jpg) |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 
 The printer looks a little different now, with internal spool holders!
 
-| ![alt_text](/images/printers/dueling-zero/Renders/Printer/iso-perspective.png) | ![alt_text](/images/printers/dueling-zero/Renders/Printer/front-ortho.png) | ![alt_text](/images/printers/dueling-zero/Renders/Printer/side-ortho.png) |
-| ------------------------------------------------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/iso-perspective.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/front-ortho.png) | ![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/side-ortho.png) |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 
 In short - **this is a big update**. _This is what D0 should have always been._
 
@@ -105,7 +105,7 @@ Other improvements:
 
 **Dual Gantry** is a rare 3D printer type with two toolheads moved by **two** _completely independent_ XY motion systems:
 
-![alt_text](/images/printers/dueling-zero/Renders/Printer/top-3.png)
+![alt_text](../../../assets/printers/dueling-zero/Renders/Printer/top-3.png)
 
 Yes, you’re seeing double, with black and silver toolheads in a dual-CoreXY motion configuration.
 
@@ -135,7 +135,7 @@ There’s no hit to max acceleration or potential for ringing caused by dragging
 
 Sure, you can't print more than two colors, like a multi-material unit or toolchanger can, but everything in engineering is tradeoffs... and Dual Gantry is an interesting and new point in the broader space of 3D printer types that support multiple extrusion:
 
-![alt_text](/images/printers/dueling-zero/Diagrams/landscape_of_multiple_extruders.png)
+![alt_text](../../../assets/printers/dueling-zero/Diagrams/landscape_of_multiple_extruders.png)
 
 Take a look at the table above, or at [this other helpful categorization](https://gist.github.com/kmcallister/6636d88802ba00432c65d14e9431c0e6). This diagram is not comprehensive, but gives a sense for the depth of the design space, and especially, the rarity of everything not on the far left side (typical single-extruder printer). For some interesting points in the design space, there's only one commercial example!
 
@@ -153,7 +153,7 @@ If all that sounds daunting, this is not the printer for you. If being the first
 
 Roughly... start with a Pandora's Box gantry. Turn it 90 degrees. Add extra bearing stacks and combine idlers with AB blocks. Duplicate it about the center. Flip it upside-down. Add off-the-shelf Boop and toolheads.
 
-![alt_text](/images/printers/dueling-zero/Renders/Gantry/over_the_side.png)
+![alt_text](../../../assets/printers/dueling-zero/Renders/Gantry/over_the_side.png)
 
 That’s the core idea.
 
@@ -169,7 +169,7 @@ Beyond the gantry, D0 heavily leverages off-the-shelf parts from these repos:
 
 If you're not familiar with these mods, here's a pic, showing a Plus50-size Tri-Zero + BoxZero printer (170x170 bed motion), next to a V0-size (120x120 bed motion) Tri-Zero + BoxZero. Both have ZeroPanels.
 
-![](/images/printers/dueling-zero/Archived_v1/Renders/iso-both.png)
+![](../../../assets/printers/dueling-zero/Archived_v1/Renders/iso-both.png)
 
 ## Sample Builds
 
@@ -181,8 +181,8 @@ Two sample builds below should get you thinking. Make sure to check out `Hex-Zer
 
 Originally [V0.562](https://www.reddit.com/r/voroncorexy/comments/odfid1/voron_00_serial_request_zruncho1790/), then the first Dueling Zero, and now with the v3 gantry:
 
-| ![alt_text](/images/printers/dueling-zero/Images/v3/box_o_parts.jpg) | ![alt_text](/images/printers/dueling-zero/Images/v3/top.jpg) | ![](/images/printers/dueling-zero/Images/v3/archetype_parts.jpg) |
-| -------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------- |
+| ![alt_text](../../../assets/printers/dueling-zero/Images/v3/box_o_parts.jpg) | ![alt_text](../../../assets/printers/dueling-zero/Images/v3/top.jpg) | ![](../../../assets/printers/dueling-zero/Images/v3/archetype_parts.jpg) |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 
 Highlights of this particular build:
 
@@ -253,7 +253,7 @@ The parts for this specific build are available at Desune's [Dueling Boops](http
 
 If you've read this far, great, but there's more good stuff.
 
-There's lots more info beyond this README file, in the repo, split into multiple pages. And the [V1 Archives](/images/printers/dueling-zero/Archived_v1/) section provides a view into the original design that you might find interesting.
+There's lots more info beyond this README file, in the repo, split into multiple pages. And the [V1 Archives](../../../assets/printers/dueling-zero/Archived_v1/) section provides a view into the original design that you might find interesting.
 
 Take a look around, or back to the What's Here section above.
 

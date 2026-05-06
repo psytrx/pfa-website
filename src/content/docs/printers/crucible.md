@@ -19,10 +19,10 @@ sidebar:
 - Under-bed carriage fans
 - Fancy name
 
-![Render](/images/printers/crucible/images/Crucible_render.png)
+![Crucible render](../../../assets/printers/crucible/images/Crucible_render.png)
 
-<img src="/images/printers/crucible/images/5D5C15D4-5C5B-44C7-AC00-2AAD4BF1DE03.jpeg" width="600" height="850">
-<img src="/images/printers/crucible/images/5DB0F848-9E6B-4D25-B1EE-E583A8C76F0B.jpeg" width="550" height="850">
+![Crucible build photo](../../../assets/printers/crucible/images/5D5C15D4-5C5B-44C7-AC00-2AAD4BF1DE03.jpeg)
+![Crucible build photo 2](../../../assets/printers/crucible/images/5DB0F848-9E6B-4D25-B1EE-E583A8C76F0B.jpeg)
 
 ## Work in Progress
 

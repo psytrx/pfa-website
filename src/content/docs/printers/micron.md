@@ -9,7 +9,7 @@ sidebar:
 
 ## Micron R1
 
-![Rendering of a Micron build](https://github.com/user-attachments/assets/10e4061b-a2dd-4d93-bba7-cf4b91859f6a)
+![Rendering of a Micron build](../../../assets/printers/micron-hero-remote.png)
 
 # [Printed Part Configurator](https://micron.wizards-enclave.net/)
 
@@ -91,13 +91,13 @@ If you want to purchase full kits there are 3 available (Kits are slowly updatin
 
 ## Frame Extrusions
 
-Misumi Part #  |Qty | Notes
- ----|----|----|
-HFS3-1515-350 |4 | Blind holes need to be drilled
-HFS3-1515-280 |10| Ends need to be tapped (M3)
-HFS3-1515-265 |2 |
-HFS3-1515-250 |1 |
-HFS3-1515-180 |1 |
+| Misumi Part # | Qty | Notes                          |
+| ------------- | --- | ------------------------------ |
+| HFS3-1515-350 | 4   | Blind holes need to be drilled |
+| HFS3-1515-280 | 10  | Ends need to be tapped (M3)    |
+| HFS3-1515-265 | 2   |
+| HFS3-1515-250 | 1   |
+| HFS3-1515-180 | 1   |
 
 ## Linear Rails
 

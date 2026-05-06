@@ -17,13 +17,13 @@ Upgrade your V0, or build a T0 from scratch with an augmented V0 kit.
 
 #### **Now with a Plus50 size, which adds 50mm X and Y travel, to 170mmx170mm:**
 
-| ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/iso-red.png)                                                                                                  |
+| ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/iso-red.png)                                                                                          |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | T0 Plus50 with optional [BoxZero](https://github.com/zruncho3d/BoxZero) mod, Tecnologic-style [ZeroPanels](https://github.com/zruncho3d/BoxZero), and Mini 12864 display. |
 
-| ![Iso](/images/printers/tri-zero/Renders/alpha-4/iso.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/iso_green_t0_brighter.png)                               |
-| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| T0 applied to V0                                          | T0 + [BoxZero](https://github.com/zruncho3d/BoxZero), [ZeroPanels](https://github.com/zruncho3d/BoxZero), & display. |
+| ![Iso](../../../assets/printers/tri-zero/Renders/alpha-4/iso.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/iso_green_t0_brighter.png)                       |
+| ----------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
+| T0 applied to V0                                                  | T0 + [BoxZero](https://github.com/zruncho3d/BoxZero), [ZeroPanels](https://github.com/zruncho3d/BoxZero), & display. |
 
 ### Why T0, vs other [Printers for Ants](https://3dprintersforants.com)?
 
@@ -36,7 +36,7 @@ _You don't even need to take the frame apart to do a V0 conversion._
 
 T0 is actively developed and community-supported, with over 20 builds completed, or in progress, as of October 2022. Here are a few sample builds:
 
-![Iso](/images/printers/tri-zero/Images/sample_builds.png)
+![Iso](../../../assets/printers/tri-zero/Images/sample_builds.png)
 
 <p></p>
 
@@ -69,11 +69,11 @@ Or, just straight to detailed docs:
 
 ## Overview and features
 
-| ![Iso](/images/printers/tri-zero/Renders/alpha-4/iso.png) | ![Front](/images/printers/tri-zero/Renders/alpha-4/front.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-4/iso_with_skirt.png) |
-| --------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| ![Iso](../../../assets/printers/tri-zero/Renders/alpha-4/iso.png) | ![Front](../../../assets/printers/tri-zero/Renders/alpha-4/front.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-4/iso_with_skirt.png) |
+| ----------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 
-| ![Bottom Iso](/images/printers/tri-zero/Renders/alpha-4/bottom_iso.png) | ![Bed Frame](/images/printers/tri-zero/Renders/alpha-2/bed_asm_no_bed.png) | ![Bottom Z](/images/printers/tri-zero/Renders/alpha-4/bottom_z.png) |
-| ----------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| ![Bottom Iso](../../../assets/printers/tri-zero/Renders/alpha-4/bottom_iso.png) | ![Bed Frame](../../../assets/printers/tri-zero/Renders/alpha-2/bed_asm_no_bed.png) | ![Bottom Z](../../../assets/printers/tri-zero/Renders/alpha-4/bottom_z.png) |
+| ------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
 
 - Perfect Z layers, quiet motion, and great bed stability from 3 belted Z axes; no floppy cantilever here
 - Reliable, stable Klicky-style bed probing with the [ZeroClick](https://github.com/zruncho3d/ZeroClick) detachable probe
@@ -98,9 +98,9 @@ With Alpha-6, the docs are vastly expanded and improved. You can expect more goo
 
 **New in this release:**
 
-| ![Iso](/images/printers/tri-zero/Renders/alpha-6/iso-both.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/center_brace_with_wagos.png) | ![Front](/images/printers/tri-zero/Renders/alpha-6/mgn7h_slider_top_iso_perspective.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/low_side_x_carriage_iso_ortho.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/motorskirts_side.png) |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| Plus50 Size                                                    | Integrated-Wago Bedframe                                                                 | Rail-less Z Option                                                                       | No-flush-cut carriages                                                                         | 40mm Side Fans                                                                    |
+| ![Iso](../../../assets/printers/tri-zero/Renders/alpha-6/iso-both.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/center_brace_with_wagos.png) | ![Front](../../../assets/printers/tri-zero/Renders/alpha-6/mgn7h_slider_top_iso_perspective.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/low_side_x_carriage_iso_ortho.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/motorskirts_side.png) |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Plus50 Size                                                            | Integrated-Wago Bedframe                                                                         | Rail-less Z Option                                                                               | No-flush-cut carriages                                                                                 | 40mm Side Fans                                                                            |
 
 - **Plus50**, or **T0+** for short, is a new, larger, supported build size. 120x120 is good, but 170x170 is more usable, for little extra money. T0+ can even be a cost-effective conversion for a V0, using 50mm extrusion chunks. Shop the new [Plus Size](PLUS50.md) section for this year's newest model.
 
@@ -114,9 +114,9 @@ With Alpha-6, the docs are vastly expanded and improved. You can expect more goo
 
 **Improved in this release:**
 
-| ![Iso](/images/printers/tri-zero/Renders/alpha-6/shaft_cap.png) | ![Front](/images/printers/tri-zero/Renders/alpha-6/updated_z_joint_orientation.png) | ![Iso with skirt](/images/printers/tri-zero/Renders/alpha-6/baseplate_with_corners.png) | 600+ lines added! |
-| --------------------------------------------------------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
-| Screw-in Shaft Caps                                             | Updated Z joint orientation                                                         | Baseplate with corners                                                                  | New docs all over |
+| ![Iso](../../../assets/printers/tri-zero/Renders/alpha-6/shaft_cap.png) | ![Front](../../../assets/printers/tri-zero/Renders/alpha-6/updated_z_joint_orientation.png) | ![Iso with skirt](../../../assets/printers/tri-zero/Renders/alpha-6/baseplate_with_corners.png) | 600+ lines added! |
+| ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------- |
+| Screw-in Shaft Caps                                                     | Updated Z joint orientation                                                                 | Baseplate with corners                                                                          | New docs all over |
 
 - **Screw-in Shaft Caps**: These match updated MotorCorners; they'll never break now, with no clips in shear. Much nicer.
 
