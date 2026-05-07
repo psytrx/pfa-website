@@ -2,6 +2,8 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
+import tailwindcss from "@tailwindcss/vite";
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [
@@ -18,6 +20,7 @@ export default defineConfig({
           href: "https://github.com/PrintersForAnts",
         },
       ],
+      customCss: ["./src/styles/global.css"],
       sidebar: [
         {
           label: "Scratch Builds",
@@ -50,7 +53,10 @@ export default defineConfig({
               label: "Pandora's Box",
               items: [
                 { slug: "printers/pandoras-box" },
-                { label: "Pandora's Box Mods", link: "/printers/pandoras-box/mods/" },
+                {
+                  label: "Pandora's Box Mods",
+                  link: "/printers/pandoras-box/mods/",
+                },
               ],
             },
             {
@@ -92,4 +98,9 @@ export default defineConfig({
       },
     }),
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });
+

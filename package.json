@@ -13,12 +13,15 @@
   },
   "dependencies": {
     "@astrojs/starlight": "^0.38.4",
+    "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.1.9",
     "marked": "^18.0.3",
     "sharp": "^0.34.5",
+    "tailwindcss": "^4.2.4",
     "yaml": "^2.8.4"
   },
   "devDependencies": {
+    "@astrojs/starlight-tailwind": "^5.0.0",
     "@typescript-eslint/parser": "^8.59.1",
     "eslint": "^10.3.0",
     "eslint-plugin-astro": "^1.7.0",
