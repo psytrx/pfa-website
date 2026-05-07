@@ -26,34 +26,19 @@ const sortedAuthors = Object.keys(byAuthor).sort((a, b) => {
 });
 ---
 
-<div class="mod-grid">
+<div class="grid gap-8">
   {sortedAuthors.map((author) => (
     <section>
-      <h3>{author}</h3>
+      <h3 class="m-0 border-b border-gray-5 pb-2">{author}</h3>
       <CardGrid>
         {byAuthor[author].map((mod) => (
           <LinkCard
             title={mod.name}
             href={`/printers/${printerId}/mods/${mod.id}/`}
             description={mod.description || undefined}
-            class='max-w-12'
           />
         ))}
       </CardGrid>
     </section>
   ))}
 </div>
-
-<style>
-  .mod-grid {
-    display: grid;
-    gap: 2rem;
-  }
-
-  .mod-grid h3 {
-    font-size: var(--sl-text-h4);
-    margin: 0;
-    border-bottom: 1px solid var(--sl-color-gray-5);
-    padding-bottom: 0.5rem;
-  }
-</style>

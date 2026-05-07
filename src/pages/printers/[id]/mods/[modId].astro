@@ -38,8 +38,8 @@ const html = mod.readme && mod.readmeExtension === "md"
 ---
 
 <StarlightPage frontmatter={{ title: mod.name }}>
-  <div class="mod-detail-meta">
-    {mod.author && <p class="mod-author">by {mod.author}</p>}
+  <div class="flex flex-col items-start gap-4 mb-6">
+    {mod.author && <p class="m-0 text-gray-2">by {mod.author}</p>}
 
     <LinkButton href={mod.githubUrl} icon="github">
       View files on GitHub
@@ -49,31 +49,18 @@ const html = mod.readme && mod.readmeExtension === "md"
   {html ? (
     <div class="mod-readme" set:html={html} />
   ) : mod.readme ? (
-    <pre class="mod-readme-plain">{mod.readme}</pre>
+    <pre class="whitespace-pre-wrap text-sm">{mod.readme}</pre>
   ) : (
-    <p class="mod-no-readme">No description available.</p>
+    <p class="text-gray-3 italic">No description available.</p>
   )}
 
-  <div class="mod-back">
+  <div class="mt-8 pt-4 border-t border-gray-5">
     <LinkCard href={`/printers/${mod.printerId}/mods/`} title={`Back to ${printerTitle} Mods`}>
     </LinkCard>
   </div>
 </StarlightPage>
 
 <style>
-  .mod-detail-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .mod-author {
-    margin: 0;
-    color: var(--sl-color-gray-2);
-  }
-
   .mod-readme :global(img) {
     max-width: 100%;
     height: auto;
@@ -86,21 +73,5 @@ const html = mod.readme && mod.readmeExtension === "md"
 
   .mod-readme :global(h2) {
     font-size: var(--sl-text-h4);
-  }
-
-  .mod-readme-plain {
-    white-space: pre-wrap;
-    font-size: var(--sl-text-sm);
-  }
-
-  .mod-no-readme {
-    color: var(--sl-color-gray-3);
-    font-style: italic;
-  }
-
-  .mod-back {
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--sl-color-gray-5);
   }
 </style>
