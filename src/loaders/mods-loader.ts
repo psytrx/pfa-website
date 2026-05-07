@@ -67,10 +67,10 @@ async function fetchRaw(url: string): Promise<string | null> {
   }
 }
 
-function loadPrinterConfigs(baseDir: string): { id: string; mods: { repo: string; path: string; branch: string } }[] {
+function loadPrinterConfigs(baseDir: string): { id: string; branch: string; mods: { repo: string; path: string } }[] {
   const printersDir = resolve(baseDir, "src/content/printers");
   const files = readdirSync(printersDir).filter((f) => f.endsWith(".yaml"));
-  const results: { id: string; mods: { repo: string; path: string; branch: string } }[] = [];
+  const results: { id: string; branch: string; mods: { repo: string; path: string } }[] = [];
 
   for (const file of files) {
     const content = readFileSync(resolve(printersDir, file), "utf-8");
@@ -78,7 +78,8 @@ function loadPrinterConfigs(baseDir: string): { id: string; mods: { repo: string
     if (data.mods) {
       results.push({
         id: file.replace(".yaml", ""),
-        mods: { branch: "main", ...data.mods },
+        branch: data.branch || "main",
+        mods: { repo: data.mods.repo, path: data.mods.path },
       });
     }
   }
@@ -176,7 +177,8 @@ export function modsLoader(): Loader {
       store.clear();
 
       for (const printer of printers) {
-        const { repo, path, branch } = printer.mods;
+        const { repo, path } = printer.mods;
+        const branch = printer.branch;
         logger.info(`Fetching mods for ${printer.id} from ${repo}`);
 
         try {

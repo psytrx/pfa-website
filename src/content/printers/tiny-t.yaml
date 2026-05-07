@@ -4,8 +4,8 @@ description: A Trident scaled down to same 150mm³ build volume as the bigger Sa
 image: ../../assets/printers/tiny-t-hero.png
 link: https://github.com/PrintersForAnts/Tiny-T
 category: barely-bigger
+branch: main
 order: 2
 mods:
   repo: PrintersForAnts/Tiny-T
   path: "MODS/*/"
-  branch: main

@@ -4,8 +4,8 @@ description: Almost a scratch build, but uses most of its parts from the Voron V
 image: ../../assets/printers/pandoras-box-hero.png
 link: https://github.com/masturmynd/pandoras_box/
 category: v0-mods
+branch: main
 order: 6
 mods:
   repo: masturmynd/pandoras_box
   path: "Mods/*/*/"
-  branch: main

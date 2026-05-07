@@ -4,4 +4,5 @@ description: A V0 mod for a flying gantry. Uses quad gantry leveling, just like 
 image: ../../assets/printers/f-zero-hero.png
 link: https://github.com/zruncho3d/f-zero
 category: v0-mods
+branch: main
 order: 4

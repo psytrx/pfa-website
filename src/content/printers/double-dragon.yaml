@@ -4,4 +4,5 @@ description: A V0 mod to add Independent Dual Extrusion (IDEX). X0 for short. X0
 image: ../../assets/printers/double-dragon-hero.png
 link: https://github.com/zruncho3d/double-dragon
 category: v0-mods
+branch: main
 order: 2

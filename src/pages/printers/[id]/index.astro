@@ -1,0 +1,69 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { LinkButton } from "@astrojs/starlight/components";
+
+const GITHUB_RAW = "https://raw.githubusercontent.com";
+
+export async function getStaticPaths() {
+  const printers = await getCollection("printers");
+  return printers.map((p) => ({
+    params: { id: p.id },
+    props: {
+      title: p.data.title,
+      repo: p.data.link,
+      branch: p.data.branch,
+    },
+  }));
+}
+
+const { title, repo, branch } = Astro.props;
+
+const [owner, name] = new URL(repo).pathname.replace(/^\/+/, "").split("/");
+const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}`;
+
+const readmeUrl = `${rawBase}/README.md`;
+const readmeRes = await fetch(readmeUrl);
+const readme = readmeRes.ok ? await readmeRes.text() : null;
+
+marked.use({
+  walkTokens(token) {
+    if (token.type === "image" && !/^https?:\/\//.test(token.href)) {
+      token.href = `${rawBase}/${token.href.replace(/^\.\//, "")}`;
+    }
+  },
+});
+
+const html = readme ? marked(readme) : null;
+---
+
+<StarlightPage frontmatter={{ title }}>
+  <div class="flex flex-col items-start gap-4 mb-6">
+    <LinkButton href={repo} icon="github" target="_blank">
+      View source on GitHub
+    </LinkButton>
+  </div>
+
+  {html ? (
+    <div class="printer-readme" set:html={html} />
+  ) : (
+    <p class="text-gray-3 italic">README could not be loaded.</p>
+  )}
+</StarlightPage>
+
+<style>
+  .printer-readme :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+  }
+
+  .printer-readme :global(h1) {
+    font-size: var(--sl-text-h3);
+  }
+
+  .printer-readme :global(h2) {
+    font-size: var(--sl-text-h4);
+  }
+</style>

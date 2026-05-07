@@ -4,8 +4,8 @@ description: A from-scratch build using 1515 extrusion like the V0, but with the
 image: ../../assets/printers/micron-hero.png
 link: https://github.com/hartk1213/Micron
 category: scratch-builds
+branch: main
 order: 1
 mods:
   repo: PrintersForAnts/Micron
   path: "Mods/*/*/"
-  branch: main

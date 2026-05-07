@@ -15,12 +15,12 @@ const printers = defineCollection({
       image: image(),
       link: z.string(),
       category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
+      branch: z.string().default("main"),
       order: z.number(),
       mods: z
         .object({
           repo: z.string(),
           path: z.string(),
-          branch: z.string().default("main"),
         })
         .optional(),
     }),

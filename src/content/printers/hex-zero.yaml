@@ -4,8 +4,8 @@ description: Derived from Tri-Zero and Pandora's gantry with some nice QOL impro
 image: ../../assets/printers/hex-zero-hero.png
 link: https://github.com/Alexander-T-Moss/Hex-Zero
 category: v0-mods
+branch: main
 order: 7
 mods:
   repo: Alexander-T-Moss/Hex-Zero
   path: "Mods/*/*/"
-  branch: main

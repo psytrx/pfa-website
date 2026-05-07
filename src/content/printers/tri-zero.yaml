@@ -4,8 +4,8 @@ description: A Voron Zero mod to add Automatic Bed Leveling - under $100, in onl
 image: ../../assets/printers/tri-zero-hero.png
 link: https://github.com/zruncho3d/tri-zero
 category: v0-mods
+branch: main
 order: 5
 mods:
   repo: zruncho3d/tri-zero
   path: "Mods/*/*/"
-  branch: main

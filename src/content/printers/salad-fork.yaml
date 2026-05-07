@@ -4,4 +4,5 @@ description: A from-scratch build using 1515 extrusions like the V0, but with th
 image: ../../assets/printers/salad-fork-hero.png
 link: https://github.com/PrintersForAnts/Salad_Fork
 category: scratch-builds
+branch: main
 order: 2

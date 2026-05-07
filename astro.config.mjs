@@ -1,8 +1,49 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
-
 import tailwindcss from "@tailwindcss/vite";
+import { readFileSync, readdirSync } from "node:fs";
+import { resolve } from "node:path";
+import YAML from "yaml";
+
+const CATEGORIES = {
+  "scratch-builds": "Scratch Builds",
+  "v0-mods": "V0 Mods",
+  "barely-bigger": "Barely Bigger Mini Printers",
+};
+
+function generatePrinterSidebar() {
+  const printersDir = resolve("src/content/printers");
+  const files = readdirSync(printersDir).filter((f) => f.endsWith(".yaml"));
+
+  const printers = files.map((f) => {
+    const content = readFileSync(resolve(printersDir, f), "utf-8");
+    const data = YAML.parse(content);
+    return { id: f.replace(".yaml", ""), ...data };
+  });
+
+  printers.sort((a, b) => a.order - b.order);
+
+  return Object.entries(CATEGORIES).map(([key, label]) => {
+    const items = printers
+      .filter((p) => p.category === key)
+      .map((p) => {
+        const link = `/printers/${p.id}/`;
+        if (p.mods) {
+          return {
+            label: p.title,
+            items: [
+              { label: p.title, link },
+              { label: `${p.title} Mods`, link: `/printers/${p.id}/mods/` },
+            ],
+          };
+        }
+        return { label: p.title, link };
+      });
+
+    return { label, items };
+  });
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,80 +62,9 @@ export default defineConfig({
         },
       ],
       customCss: ["./src/styles/global.css"],
-      sidebar: [
-        {
-          label: "Scratch Builds",
-          items: [
-            {
-              label: "Micron",
-              items: [
-                { slug: "printers/micron" },
-                { label: "Micron Mods", link: "/printers/micron/mods/" },
-              ],
-            },
-            "printers/salad-fork",
-          ],
-        },
-        {
-          label: "V0 Mods",
-          items: [
-            "printers/dueling-zero",
-            "printers/double-dragon",
-            "printers/crucible",
-            "printers/f-zero",
-            {
-              label: "Tri-Zero",
-              items: [
-                { slug: "printers/tri-zero" },
-                { label: "Tri-Zero Mods", link: "/printers/tri-zero/mods/" },
-              ],
-            },
-            {
-              label: "Pandora's Box",
-              items: [
-                { slug: "printers/pandoras-box" },
-                {
-                  label: "Pandora's Box Mods",
-                  link: "/printers/pandoras-box/mods/",
-                },
-              ],
-            },
-            {
-              label: "Hex-Zero",
-              items: [
-                { slug: "printers/hex-zero" },
-                { label: "Hex-Zero Mods", link: "/printers/hex-zero/mods/" },
-              ],
-            },
-          ],
-        },
-        {
-          label: "Barely Bigger Mini Printers",
-          items: [
-            {
-              label: "Tiny-M",
-              items: [
-                { slug: "printers/tiny-m" },
-                { label: "Tiny-M Mods", link: "/printers/tiny-m/mods/" },
-              ],
-            },
-            {
-              label: "Tiny-T",
-              items: [
-                { slug: "printers/tiny-t" },
-                { label: "Tiny-T Mods", link: "/printers/tiny-t/mods/" },
-              ],
-            },
-          ],
-        },
-      ],
-      editLink: {
-        baseUrl:
-          "https://github.com/psytrx/pfa-website/edit/main/src/content/docs/",
-      },
+      sidebar: generatePrinterSidebar(),
       components: {
         Footer: "./src/components/CustomFooter.astro",
-        MarkdownContent: "./src/components/CustomMarkdownContent.astro",
       },
     }),
   ],
@@ -103,4 +73,3 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 });
-
