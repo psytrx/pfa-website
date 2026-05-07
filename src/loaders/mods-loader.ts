@@ -12,10 +12,26 @@ interface ModEntry {
   printerId: string;
   name: string;
   author: string;
+  description: string | null;
   path: string;
   readme: string | null;
   readmeExtension: string | null;
   githubUrl: string;
+}
+
+function extractDescription(readme: string | null): string | null {
+  if (!readme) return null;
+  const firstParagraph = readme.split(/\n\n+/)[0];
+  const plain = firstParagraph
+    .replace(/^#+\s+/gm, "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\*(.+?)\*/g, "$1")
+    .replace(/`(.+?)`/g, "$1")
+    .replace(/\[(.+?)\]\(.+?\)/g, "$1")
+    .replace(/!\[.*?\]\(.+?\)/g, "")
+    .replace(/<[^>]+>/g, "")
+    .trim();
+  return plain || null;
 }
 
 function formatName(dirName: string): string {
@@ -139,6 +155,7 @@ async function getModsForPrinter(
       printerId: "",
       name: formatName(modName),
       author: author ? formatName(author) : "",
+      description: extractDescription(readme),
       path: dirPath,
       readme,
       readmeExtension,
@@ -191,6 +208,7 @@ export function modsLoader(): Loader {
       printerId: z.string(),
       name: z.string(),
       author: z.string(),
+      description: z.string().nullable(),
       path: z.string(),
       readme: z.string().nullable(),
       readmeExtension: z.string().nullable(),

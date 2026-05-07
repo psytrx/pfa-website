@@ -1,0 +1,90 @@
+---
+import { getCollection } from "astro:content";
+import { marked } from "marked";
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { LinkButton, LinkCard } from "@astrojs/starlight/components";
+
+export async function getStaticPaths() {
+  const printers = await getCollection("printers");
+  const printerMap = new Map(printers.map((p) => [p.id, p.data.title]));
+  const allMods = await getCollection("printer-mods");
+
+  return allMods.map((mod) => ({
+    params: { id: mod.data.printerId, modId: mod.data.id },
+    props: {
+      mod: mod.data,
+      printerTitle: printerMap.get(mod.data.printerId) || mod.data.printerId,
+    },
+  }));
+}
+
+const { mod, printerTitle } = Astro.props;
+---
+
+<StarlightPage frontmatter={{ title: mod.name }}>
+  <div class="mod-detail-meta">
+    {mod.author && <p class="mod-author">by {mod.author}</p>}
+
+    <LinkButton href={mod.githubUrl} icon="external">
+      View source files on GitHub
+    </LinkButton>
+  </div>
+
+  {mod.readme && mod.readmeExtension === "md" ? (
+    <div class="mod-readme" set:html={marked(mod.readme)} />
+  ) : mod.readme ? (
+    <pre class="mod-readme-plain">{mod.readme}</pre>
+  ) : (
+    <p class="mod-no-readme">No description available.</p>
+  )}
+
+  <div class="mod-back">
+    <LinkCard href={`/printers/${mod.printerId}/mods/`} title={`Back to ${printerTitle} Mods`}>
+    </LinkCard>
+  </div>
+</StarlightPage>
+
+<style>
+  .mod-detail-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mod-author {
+    margin: 0;
+    color: var(--sl-color-gray-2);
+  }
+
+  .mod-readme :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.25rem;
+  }
+
+  .mod-readme :global(h1) {
+    font-size: var(--sl-text-h3);
+  }
+
+  .mod-readme :global(h2) {
+    font-size: var(--sl-text-h4);
+  }
+
+  .mod-readme-plain {
+    white-space: pre-wrap;
+    font-size: var(--sl-text-sm);
+  }
+
+  .mod-no-readme {
+    color: var(--sl-color-gray-3);
+    font-style: italic;
+  }
+
+  .mod-back {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+  }
+</style>
