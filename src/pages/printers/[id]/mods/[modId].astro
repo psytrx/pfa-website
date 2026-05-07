@@ -19,19 +19,35 @@ export async function getStaticPaths() {
 }
 
 const { mod, printerTitle } = Astro.props;
+
+const rawBase = mod.githubUrl
+  .replace("github.com", "raw.githubusercontent.com")
+  .replace("/tree/", "/");
+
+marked.use({
+  walkTokens(token) {
+    if (token.type === "image" && !/^https?:\/\//.test(token.href)) {
+      token.href = `${rawBase}/${token.href.replace(/^\.\//, "")}`;
+    }
+  },
+});
+
+const html = mod.readme && mod.readmeExtension === "md"
+  ? marked(mod.readme)
+  : null;
 ---
 
 <StarlightPage frontmatter={{ title: mod.name }}>
   <div class="mod-detail-meta">
     {mod.author && <p class="mod-author">by {mod.author}</p>}
 
-    <LinkButton href={mod.githubUrl} icon="external">
+    <LinkButton href={mod.githubUrl} icon="github">
       View source files on GitHub
     </LinkButton>
   </div>
 
-  {mod.readme && mod.readmeExtension === "md" ? (
-    <div class="mod-readme" set:html={marked(mod.readme)} />
+  {html ? (
+    <div class="mod-readme" set:html={html} />
   ) : mod.readme ? (
     <pre class="mod-readme-plain">{mod.readme}</pre>
   ) : (

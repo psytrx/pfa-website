@@ -5,8 +5,6 @@ sidebar:
   order: 3
 ---
 
-[View on GitHub](https://github.com/PrintersForAnts/Crucible)
-
 # Crucible
 
 ## Features

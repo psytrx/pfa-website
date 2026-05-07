@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/zruncho3d/DuelingZero)
-
 ## Dueling Zero - a Dual Gantry V0 mod
 
 **Two extruders. No compromises.**

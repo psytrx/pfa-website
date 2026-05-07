@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/gsl12/Tiny-M)
-
 # Tiny-M
 
 ### !!!!!!!!!!!!!! August 2023

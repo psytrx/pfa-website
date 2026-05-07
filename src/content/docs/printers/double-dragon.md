@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-[View on GitHub](https://github.com/zruncho3d/double-dragon)
-
 # Double Dragon
 
 a Voron Zero mod to add Independent Dual Extrusion (IDEX). "X0" for short. **Now printing!**

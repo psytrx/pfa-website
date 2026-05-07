@@ -5,8 +5,6 @@ sidebar:
   order: 5
 ---
 
-[View on GitHub](https://github.com/zruncho3d/tri-zero)
-
 # Tri-Zero - a triple-belted-Z V0 mod
 
 a Voron Zero mod to add Automatic Bed Leveling - under $100, in only a few hours.

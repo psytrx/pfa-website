@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-[View on GitHub](https://github.com/PrintersForAnts/Tiny-T)
-
 # Tiny-T (revision 2.0)
 
 [![](https://img.shields.io/discord/825469421346226226?color=teal&label=Tiny-T&logo=discord&logoColor=fafafa)](https://discord.gg/doomcube)

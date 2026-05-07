@@ -5,8 +5,6 @@ sidebar:
   order: 6
 ---
 
-[View on GitHub](https://github.com/masturmynd/pandoras_box/)
-
 # Pandoras_Box
 
 ![Pandoras Box](../../../assets/printers/pandoras-box/Images/pandoras-box-hero.png)

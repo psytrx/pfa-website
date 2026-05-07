@@ -5,8 +5,6 @@ sidebar:
   order: 1
 ---
 
-[View on GitHub](https://github.com/hartk1213/Micron)
-
 ## Micron R1
 
 ![Rendering of a Micron build](../../../assets/printers/micron-hero-remote.png)

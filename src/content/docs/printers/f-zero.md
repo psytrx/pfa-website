@@ -5,8 +5,6 @@ sidebar:
   order: 4
 ---
 
-[View on GitHub](https://github.com/zruncho3d/f-zero)
-
 # F-Zero - an Evolved Voron Zero
 
 by Zruncho and `#flying-zero` collaborators on the [DoomCube Discord](https://discord.gg/doomcube):

@@ -5,8 +5,6 @@ sidebar:
   order: 2
 ---
 
-[View on GitHub](https://github.com/PrintersForAnts/Salad_Fork)
-
 # Salad Fork
 
 ![Salad Fork](../../../assets/printers/salad-fork/images/salad-fork-hero-1.1.png)
