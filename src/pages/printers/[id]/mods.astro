@@ -28,5 +28,6 @@ const mods = allMods
 
 <StarlightPage frontmatter={{ title: `${title} Mods` }}>
   <p>Community-contributed modifications for the {title}. Sourced from the <a href={`https://github.com/${repo}`}>GitHub repository</a>.</p>
+
   <ModGrid printerId={printerId} mods={mods.map((m) => m.data)} />
 </StarlightPage>

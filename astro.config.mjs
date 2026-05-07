@@ -88,6 +88,7 @@ export default defineConfig({
       },
       components: {
         Footer: "./src/components/CustomFooter.astro",
+        MarkdownContent: "./src/components/CustomMarkdownContent.astro",
       },
     }),
   ],
