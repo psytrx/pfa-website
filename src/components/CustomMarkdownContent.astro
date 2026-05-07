@@ -1,6 +1,6 @@
 ---
-import '@astrojs/starlight/style/markdown.css';
-import { getCollection } from 'astro:content';
+import "@astrojs/starlight/style/markdown.css";
+import { getCollection } from "astro:content";
 import { LinkButton } from "@astrojs/starlight/components";
 
 const path = Astro.url.pathname;
@@ -8,17 +8,19 @@ const printerMatch = path.match(/^\/printers\/([^/]+)\/?$/);
 
 let printerLink: string | undefined;
 if (printerMatch) {
-  const printers = await getCollection('printers');
+  const printers = await getCollection("printers");
   const printer = printers.find((p) => p.id === printerMatch[1]);
   printerLink = printer?.data.link;
 }
 ---
 
 <div class="sl-markdown-content">
-  {printerLink &&
-    <LinkButton href={printerLink} icon="github">
-      View files on GitHub
-    </LinkButton>
+  {
+    printerLink && (
+      <LinkButton href={printerLink} icon="github" target="_blank">
+        View files on GitHub
+      </LinkButton>
+    )
   }
 
   <slot />
