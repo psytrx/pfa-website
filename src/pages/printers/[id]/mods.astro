@@ -10,7 +10,7 @@ export async function getStaticPaths() {
     .filter((p) => p.data.mods)
     .map((p) => ({
       params: { id: p.id },
-      props: { printerId: p.id, title: p.data.title, repo: p.data.mods.repo },
+      props: { printerId: p.id, title: p.data.title, repo: p.data.mods?.repo },
     }));
 }
 
