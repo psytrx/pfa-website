@@ -52,7 +52,7 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
 
   .printer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(max(26rem, 40vw), 1fr));
     gap: 2rem;
   }
 
