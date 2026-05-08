@@ -88,6 +88,7 @@ const PrinterConfigSchema = z.object({
   github: z.object({
     url: z.string(),
     branch: z.string(),
+    readme: z.string(),
   }),
   mods: z
     .object({
@@ -117,7 +118,7 @@ function loadPrinterConfigs(baseDir: string) {
 
   return result.data.filter(hasMods).map((p) => ({
     id: p.id,
-    branch: p.github.branch,
+    github: p.github,
     mods: p.mods,
   }));
 }
@@ -226,7 +227,7 @@ export function modsLoader(): Loader {
 
       for (const printer of printers) {
         const { repo, path } = printer.mods;
-        const branch = printer.branch;
+        const branch = printer.github.branch;
         logger.info(`Fetching mods for ${printer.id} from ${repo}`);
 
         const mods = await getModsForPrinter(repo, path, branch, token);

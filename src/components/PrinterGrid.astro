@@ -13,9 +13,7 @@ const categories = {
 
 const grouped = Object.entries(categories).map(([key, label]) => ({
   label,
-  items: printers
-    .toSorted((a, b) => a.data.order - b.data.order)
-    .filter((p) => p.data.category === key),
+  items: printers.filter((p) => p.data.category === key),
 }));
 ---
 

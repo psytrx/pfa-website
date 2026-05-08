@@ -12,18 +12,19 @@ export async function getStaticPaths() {
     params: { id: p.id },
     props: {
       title: p.data.title,
-      repo: p.data.github.url,
-      branch: p.data.github.branch,
+      github: p.data.github,
     },
   }));
 }
 
-const { title, repo, branch } = Astro.props;
+const { title, github } = Astro.props;
 
-const [owner, name] = new URL(repo).pathname.replace(/^\/+/, "").split("/");
-const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}`;
+const [owner, name] = new URL(github.url).pathname
+  .replace(/^\/+/, "")
+  .split("/");
+const rawBase = `${GITHUB_RAW}/${owner}/${name}/${github.branch}`;
 
-const readmeUrl = `${rawBase}/README.md`;
+const readmeUrl = `${rawBase}/${github.readme}`;
 const readmeRes = await fetch(readmeUrl);
 if (!readmeRes.ok) {
   throw new Error(`README.md could not be loaded: ${readmeRes.statusText}`, {
@@ -47,7 +48,12 @@ const html = readme ? marked(readme) : null;
 
 <StarlightPage frontmatter={{ title }}>
   <div class="space-y-8">
-    <LinkButton href={repo} icon="github" target="_blank" variant="secondary">
+    <LinkButton
+      href={github.url}
+      icon="github"
+      target="_blank"
+      variant="secondary"
+    >
       View on GitHub
     </LinkButton>
 
