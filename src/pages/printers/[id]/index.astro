@@ -40,17 +40,21 @@ const html = readme ? marked(readme) : null;
 ---
 
 <StarlightPage frontmatter={{ title }}>
-  <LinkButton href={repo} icon="github" target="_blank" variant="secondary">
-    View on GitHub
-  </LinkButton>
+  <div class="space-y-8">
+    <LinkButton href={repo} icon="github" target="_blank" variant="secondary">
+      View on GitHub
+    </LinkButton>
 
-  {
-    html ? (
-      <div set:html={html} />
-    ) : (
-      <p class="text-(--sl-color-gray-3) italic">README could not be loaded.</p>
-    )
-  }
+    {
+      html ? (
+        <div set:html={html} />
+      ) : (
+        <p class="text-(--sl-color-gray-3) italic">
+          README could not be loaded.
+        </p>
+      )
+    }
+  </div>
 </StarlightPage>
 
 <style>

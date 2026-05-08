@@ -39,18 +39,21 @@ const mods = allMods
 ---
 
 <StarlightPage frontmatter={{ title: `${title} Mods` }}>
-  <p>
-    Community-contributed modifications for the {title}.
-  </p>
+  <div class="space-y-8">
+    <p>
+      Community-contributed modifications for the {title}.
+    </p>
 
-  <LinkButton
-    href={`https://github.com/${repo}`}
-    icon="github"
-    target="_blank"
-    variant="secondary"
-  >
-    View on GitHub
-</LinkButton>
+    <LinkButton
+      href={`https://github.com/${repo}`}
+      icon="github"
+      target="_blank"
+      variant="secondary"
+    >
+      View on GitHub
+    </LinkButton>
 
-  <ModGrid printerId={printerId} mods={mods} />
+    <ModGrid printerId={printerId} mods={mods} />
+  </div>
 </StarlightPage>
+
