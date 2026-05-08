@@ -15,7 +15,7 @@ const printers = defineCollection({
       image: image(),
       github: z.object({
         url: z.string(),
-        branch: z.string().default("main"),
+        branch: z.string(),
       }),
       category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
       mods: z

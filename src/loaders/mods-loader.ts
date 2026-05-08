@@ -87,7 +87,7 @@ const PrinterConfigSchema = z.object({
   id: z.string(),
   github: z.object({
     url: z.string(),
-    branch: z.string().optional(),
+    branch: z.string(),
   }),
   mods: z
     .object({
@@ -117,7 +117,7 @@ function loadPrinterConfigs(baseDir: string) {
 
   return result.data.filter(hasMods).map((p) => ({
     id: p.id,
-    branch: p.github.branch ?? "main",
+    branch: p.github.branch,
     mods: p.mods,
   }));
 }
