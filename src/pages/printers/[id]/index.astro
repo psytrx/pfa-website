@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { marked } from "marked";
+import { useRelativeImageBase } from "../../../utils/markdown";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { LinkButton } from "@astrojs/starlight/components";
 
@@ -34,14 +35,7 @@ if (!readmeRes.ok) {
 
 const readme = await readmeRes.text();
 
-marked.use({
-  walkTokens(token) {
-    if (token.type === "image" && !/^https?:\/\//.test(token.href)) {
-      const relative = token.href.replace(/^\.\//, "");
-      token.href = `${rawBase}/${relative}`;
-    }
-  },
-});
+useRelativeImageBase(rawBase);
 
 const html = readme ? marked(readme) : null;
 ---
