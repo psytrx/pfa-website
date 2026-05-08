@@ -28,25 +28,25 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
         <CardGrid>
           {items.map(({ id, data }) => (
             <Card title={data.title}>
-              <p class="text-balance text-(--sl-color-gray-4) italic">
-                {data.subline}
-              </p>
+              <div class="flex flex-col items-center gap-4">
+                <p class="mb-4 w-full text-left text-balance text-(--sl-color-gray-3) italic">
+                  {data.subline}
+                </p>
 
-              <a href={`/printers/${id}`}>
-                <Image
-                  src={data.image}
-                  alt={data.title}
-                  layout="constrained"
-                  width="800"
-                  class="aspect-square object-contain"
-                />
-              </a>
+                <a href={`/printers/${id}`}>
+                  <Image
+                    src={data.image}
+                    alt={data.title}
+                    layout="constrained"
+                    width="800"
+                    class="aspect-square object-contain"
+                  />
+                </a>
 
-              <div class="text-center">
-                <p class="text-balance">{data.description}</p>
+                <p class="text-center text-balance">{data.description}</p>
 
                 <LinkButton href={`/printers/${id}`} variant="secondary">
-                  View printer details
+                  View details
                 </LinkButton>
               </div>
             </Card>

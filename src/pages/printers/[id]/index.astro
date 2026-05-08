@@ -42,26 +42,25 @@ const html = readme ? marked(readme) : null;
 ---
 
 <StarlightPage frontmatter={{ title }}>
-  <div class="mb-6 flex flex-col items-start gap-4">
-    <LinkButton href={repo} icon="github" target="_blank">
-      View source on GitHub
-    </LinkButton>
-    {
-      hasMods && (
-        <LinkCard
-          href={`/printers/${id}/mods/`}
-          title={`${title} Mods`}
-          description={`Community-contributed modifications for the ${title}.`}
-        />
-      )
-    }
-  </div>
+  <LinkButton href={repo} icon="github" target="_blank">
+    View source on GitHub
+  </LinkButton>
+
+  {
+    hasMods && (
+      <LinkCard
+        href={`/printers/${id}/mods/`}
+        title={`${title} Mods`}
+        description={`Community-contributed modifications for the ${title}.`}
+      />
+    )
+  }
 
   {
     html ? (
-      <div class="printer-readme" set:html={html} />
+      <div set:html={html} />
     ) : (
-      <p class="text-gray-3 italic">README could not be loaded.</p>
+      <p class="text-(--sl-color-gray-3) italic">README could not be loaded.</p>
     )
   }
 </StarlightPage>
@@ -70,14 +69,5 @@ const html = readme ? marked(readme) : null;
   .printer-readme :global(img) {
     max-width: 100%;
     height: auto;
-    border-radius: 0.25rem;
-  }
-
-  .printer-readme :global(h1) {
-    font-size: var(--sl-text-h3);
-  }
-
-  .printer-readme :global(h2) {
-    font-size: var(--sl-text-h4);
   }
 </style>
