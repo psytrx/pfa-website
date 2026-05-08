@@ -25,15 +25,13 @@ const sortedAuthors = Object.keys(modsByAuthor).sort((a, b) => {
   if (b === "Other") return -1;
   return a.localeCompare(b);
 });
-
-console.log(modsByAuthor);
 ---
 
 <div class="grid gap-8">
   {
     sortedAuthors.map((author) => (
       <section>
-        <h3 class="border-gray-5 m-0 border-b pb-2">{author}</h3>
+        <h3>{author}</h3>
 
         <CardGrid>
           {modsByAuthor[author].map((mod) => (

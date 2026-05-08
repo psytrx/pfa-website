@@ -4,17 +4,18 @@ import { Card, CardGrid, LinkButton } from "@astrojs/starlight/components";
 import { Image } from "astro:assets";
 
 const printers = await getCollection("printers");
-const sorted = printers.sort((a, b) => a.data.order - b.data.order);
 
-const categories: Record<string, string> = {
+const categories = {
   "scratch-builds": "Scratch Builds",
   "v0-mods": "V0 Mods",
   "barely-bigger": "Barely Bigger Mini Printers",
-};
+} as const;
 
 const grouped = Object.entries(categories).map(([key, label]) => ({
   label,
-  items: sorted.filter((p) => p.data.category === key),
+  items: printers
+    .toSorted((a, b) => a.data.order - b.data.order)
+    .filter((p) => p.data.category === key),
 }));
 ---
 
@@ -31,13 +32,15 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
                 {data.subline}
               </p>
 
-              <Image
-                src={data.image}
-                alt={data.title}
-                layout="constrained"
-                width="800"
-                class="aspect-square object-contain"
-              />
+              <a href={`/printers/${id}`}>
+                <Image
+                  src={data.image}
+                  alt={data.title}
+                  layout="constrained"
+                  width="800"
+                  class="aspect-square object-contain"
+                />
+              </a>
 
               <div class="text-center">
                 <p class="text-balance">{data.description}</p>
