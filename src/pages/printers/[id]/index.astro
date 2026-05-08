@@ -13,8 +13,8 @@ export async function getStaticPaths() {
     props: {
       id: p.id,
       title: p.data.title,
-      repo: p.data.link,
-      branch: p.data.branch,
+      repo: p.data.github.url,
+      branch: p.data.github.branch,
       hasMods: !!p.data.mods,
     },
   }));

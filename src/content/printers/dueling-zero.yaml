@@ -1,8 +1,0 @@
-title: Dueling Zero
-subline: Two extruders. No compromises. Dual Gantry FTW.
-description: Enable dual-color, dual-material, and dual-part printing... with the same speed and quality as single-extruder printing. Mod a Voron Zero or build one fresh!
-image: ../../assets/printers/dueling-zero-hero.png
-link: https://github.com/zruncho3d/DuelingZero
-category: v0-mods
-branch: main
-order: 1

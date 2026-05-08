@@ -1,22 +1,23 @@
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
-import { glob } from "astro/loaders";
+import { file } from "astro/loaders";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { modsLoader } from "./loaders/mods-loader";
 
 const printers = defineCollection({
-  loader: glob({ pattern: "**/*.yaml", base: "./src/content/printers" }),
+  loader: file("src/content/printers.yaml"),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       subline: z.string(),
       description: z.string(),
       image: image(),
-      link: z.string(),
+      github: z.object({
+        url: z.string(),
+        branch: z.string().default("main"),
+      }),
       category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
-      branch: z.string().default("main"),
-      order: z.number(),
       mods: z
         .object({
           repo: z.string(),

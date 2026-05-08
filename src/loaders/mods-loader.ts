@@ -1,6 +1,6 @@
 import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
 
@@ -68,27 +68,21 @@ async function fetchRaw(url: string): Promise<string | null> {
 function loadPrinterConfigs(
   baseDir: string,
 ): { id: string; branch: string; mods: { repo: string; path: string } }[] {
-  const printersDir = resolve(baseDir, "src/content/printers");
-  const files = readdirSync(printersDir).filter((f) => f.endsWith(".yaml"));
-  const results: {
+  const filePath = resolve(baseDir, "src/content/printers.yaml");
+  const content = readFileSync(filePath, "utf-8");
+const printers = YAML.parse(content) as {
     id: string;
-    branch: string;
-    mods: { repo: string; path: string };
-  }[] = [];
+    github?: { url: string; branch?: string };
+    mods?: { repo: string; path: string };
+  }[];
 
-  for (const file of files) {
-    const content = readFileSync(resolve(printersDir, file), "utf-8");
-    const data = YAML.parse(content);
-    if (data.mods) {
-      results.push({
-        id: file.replace(".yaml", ""),
-        branch: data.branch || "main",
-        mods: { repo: data.mods.repo, path: data.mods.path },
-      });
-    }
-  }
-
-  return results;
+  return printers
+    .filter((p) => p.mods)
+    .map((p) => ({
+      id: p.id,
+      branch: p.github?.branch || "main",
+      mods: p.mods!,
+    }));
 }
 
 async function getModsForPrinter(

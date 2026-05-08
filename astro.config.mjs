@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
 
@@ -13,16 +13,9 @@ const CATEGORIES = {
 };
 
 function generatePrinterSidebar() {
-  const printersDir = resolve("src/content/printers");
-  const files = readdirSync(printersDir).filter((f) => f.endsWith(".yaml"));
-
-  const printers = files.map((f) => {
-    const content = readFileSync(resolve(printersDir, f), "utf-8");
-    const data = YAML.parse(content);
-    return { id: f.replace(".yaml", ""), ...data };
-  });
-
-  printers.sort((a, b) => a.order - b.order);
+  const filePath = resolve("src/content/printers.yaml");
+  const content = readFileSync(filePath, "utf-8");
+  const printers = YAML.parse(content);
 
   return Object.entries(CATEGORIES).map(([key, label]) => {
     const items = printers
