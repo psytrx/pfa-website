@@ -41,8 +41,13 @@ const html =
   <div class="mb-6 flex flex-col items-start gap-4">
     {mod.author && <p class="text-gray-2 m-0">by {mod.author}</p>}
 
-    <LinkButton href={mod.githubUrl} icon="github" target="_blank">
-      View files on GitHub
+    <LinkButton
+      href={mod.githubUrl}
+      icon="github"
+      target="_blank"
+      variant="secondary"
+    >
+      View on GitHub
     </LinkButton>
   </div>
 

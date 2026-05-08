@@ -156,13 +156,13 @@ async function getModsForPrinter(
     const parts = rel.split("/");
     if (depth === 2 && parts.length === 2) {
       modDirs.set(entry.path, {
-        author: parts[0],
-        name: parts[1],
+        author: parts[0] || "",
+        name: parts[1] || "",
       });
     } else if (depth === 1 && parts.length === 1) {
       modDirs.set(entry.path, {
         author: "",
-        name: parts[0],
+        name: parts[0] || "",
       });
     }
   }

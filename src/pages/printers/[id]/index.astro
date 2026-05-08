@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import { marked } from "marked";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
-import { LinkButton, LinkCard } from "@astrojs/starlight/components";
+import { LinkButton } from "@astrojs/starlight/components";
 
 const GITHUB_RAW = "https://raw.githubusercontent.com";
 
@@ -11,16 +11,14 @@ export async function getStaticPaths() {
   return printers.map((p) => ({
     params: { id: p.id },
     props: {
-      id: p.id,
       title: p.data.title,
       repo: p.data.github.url,
       branch: p.data.github.branch,
-      hasMods: !!p.data.mods,
     },
   }));
 }
 
-const { id, title, repo, branch, hasMods } = Astro.props;
+const { title, repo, branch } = Astro.props;
 
 const [owner, name] = new URL(repo).pathname.replace(/^\/+/, "").split("/");
 const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}`;
@@ -42,19 +40,9 @@ const html = readme ? marked(readme) : null;
 ---
 
 <StarlightPage frontmatter={{ title }}>
-  <LinkButton href={repo} icon="github" target="_blank">
-    View source on GitHub
+  <LinkButton href={repo} icon="github" target="_blank" variant="secondary">
+    View on GitHub
   </LinkButton>
-
-  {
-    hasMods && (
-      <LinkCard
-        href={`/printers/${id}/mods/`}
-        title={`${title} Mods`}
-        description={`Community-contributed modifications for the ${title}.`}
-      />
-    )
-  }
 
   {
     html ? (
