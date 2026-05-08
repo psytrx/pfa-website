@@ -26,21 +26,21 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
           {items.map(({ id, data }) => (
             <a
               href={`/printers/${id}`}
-              class="flex flex-col border border-gray-5 rounded-lg overflow-hidden no-underline text-inherit hover:border-gray-2 transition-colors duration-200"
+              class="border-gray-5 hover:border-gray-2 flex flex-col overflow-hidden rounded-lg border text-inherit no-underline transition-colors duration-200"
             >
               <Image
                 src={data.image}
                 alt={data.title}
                 widths={[450]}
                 sizes="450px"
-                class="w-full aspect-[3/2] object-contain bg-gray-6"
+                class="bg-gray-6 aspect-[3/2] w-full object-contain"
               />
-              <div class="p-4 flex flex-col gap-4">
+              <div class="flex flex-col gap-4 p-4">
                 <h3 class="m-0 mb-1 text-xl">{data.title}</h3>
-                <p class="m-0 mb-4 text-lg italic text-gray-2 text-balance">
+                <p class="text-gray-2 m-0 mb-4 text-lg text-balance italic">
                   {data.subline}
                 </p>
-                <p class="m-0 text-sm text-gray-2">{data.description}</p>
+                <p class="text-gray-2 m-0 text-sm">{data.description}</p>
               </div>
             </a>
           ))}

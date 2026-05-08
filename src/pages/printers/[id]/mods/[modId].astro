@@ -37,8 +37,8 @@ const html =
 ---
 
 <StarlightPage frontmatter={{ title: mod.name }}>
-  <div class="flex flex-col items-start gap-4 mb-6">
-    {mod.author && <p class="m-0 text-gray-2">by {mod.author}</p>}
+  <div class="mb-6 flex flex-col items-start gap-4">
+    {mod.author && <p class="text-gray-2 m-0">by {mod.author}</p>}
 
     <LinkButton href={mod.githubUrl} icon="github" target="_blank">
       View files on GitHub
@@ -49,13 +49,13 @@ const html =
     html ? (
       <div class="mod-readme" set:html={html} />
     ) : mod.readme ? (
-      <pre class="whitespace-pre-wrap text-sm">{mod.readme}</pre>
+      <pre class="text-sm whitespace-pre-wrap">{mod.readme}</pre>
     ) : (
       <p class="text-gray-3 italic">No description available.</p>
     )
   }
 
-  <div class="mt-8 pt-4 border-t border-gray-5">
+  <div class="border-gray-5 mt-8 border-t pt-4">
     <LinkCard
       href={`/printers/${mod.printerId}/mods/`}
       title={`Back to ${printerTitle} Mods`}
