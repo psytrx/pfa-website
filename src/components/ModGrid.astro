@@ -15,8 +15,7 @@ const { printerId, mods } = Astro.props;
 
 const modsByAuthor = mods.reduce<Record<string, typeof mods>>((acc, mod) => {
   const key = mod.author || "Other";
-  const mods = acc[key] ?? [];
-  mods.push(mod);
+  (acc[key] ??= []).push(mod);
   return acc;
 }, {});
 

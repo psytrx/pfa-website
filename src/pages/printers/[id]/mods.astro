@@ -4,8 +4,6 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import ModGrid from "../../../components/ModGrid.astro";
 import { LinkButton } from "@astrojs/starlight/components";
 
-const { printerId, title, repo } = Astro.props;
-
 export async function getStaticPaths() {
   const printers = await getCollection("printers");
   return printers
@@ -20,18 +18,24 @@ export async function getStaticPaths() {
     }));
 }
 
+const { printerId, title, repo } = Astro.props;
+
 const allMods = await getCollection("printer-mods");
 const mods = allMods
   .filter((m) => m.data.printerId === printerId)
   .sort((a, b) => {
     if (a.data.author && b.data.author) {
       const cmp = a.data.author.localeCompare(b.data.author);
-      if (cmp !== 0) {
-        return cmp;
-      }
+      if (cmp !== 0) return cmp;
     }
     return a.data.name.localeCompare(b.data.name);
-  });
+  })
+  .map((m) => ({
+    id: m.data.id,
+    name: m.data.name,
+    author: m.data.author,
+    description: m.data.description,
+  }));
 ---
 
 <StarlightPage frontmatter={{ title: `${title} Mods` }}>
@@ -46,7 +50,7 @@ const mods = allMods
     variant="secondary"
   >
     View on GitHub
-  </LinkButton>
+</LinkButton>
 
-  <ModGrid printerId={printerId} mods={mods.map((m) => m.data)} />
+  <ModGrid printerId={printerId} mods={mods} />
 </StarlightPage>
