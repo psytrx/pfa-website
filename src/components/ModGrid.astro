@@ -13,32 +13,38 @@ interface Props {
 
 const { printerId, mods } = Astro.props;
 
-const byAuthor = mods.reduce<Record<string, typeof mods>>((acc, mod) => {
+const modsByAuthor = mods.reduce<Record<string, typeof mods>>((acc, mod) => {
   const key = mod.author || "Other";
-  (acc[key] ??= []).push(mod);
+  const mods = acc[key] ?? [];
+  mods.push(mod);
   return acc;
 }, {});
 
-const sortedAuthors = Object.keys(byAuthor).sort((a, b) => {
+const sortedAuthors = Object.keys(modsByAuthor).sort((a, b) => {
   if (a === "Other") return 1;
   if (b === "Other") return -1;
   return a.localeCompare(b);
 });
+
+console.log(modsByAuthor);
 ---
 
 <div class="grid gap-8">
-  {sortedAuthors.map((author) => (
-    <section>
-      <h3 class="m-0 border-b border-gray-5 pb-2">{author}</h3>
-      <CardGrid>
-        {byAuthor[author].map((mod) => (
-          <LinkCard
-            title={mod.name}
-            href={`/printers/${printerId}/mods/${mod.id}/`}
-            description={mod.description || undefined}
-          />
-        ))}
-      </CardGrid>
-    </section>
-  ))}
+  {
+    sortedAuthors.map((author) => (
+      <section>
+        <h3 class="m-0 border-b border-gray-5 pb-2">{author}</h3>
+
+        <CardGrid>
+          {modsByAuthor[author].map((mod) => (
+            <LinkCard
+              title={mod.name}
+              href={`/printers/${printerId}/mods/${mod.id}/`}
+              description={mod.description || undefined}
+            />
+          ))}
+        </CardGrid>
+      </section>
+    ))
+  }
 </div>

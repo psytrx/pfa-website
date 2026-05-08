@@ -4,6 +4,8 @@ import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import ModGrid from "../../../components/ModGrid.astro";
 import { LinkButton } from "@astrojs/starlight/components";
 
+const { printerId, title, repo } = Astro.props;
+
 export async function getStaticPaths() {
   const printers = await getCollection("printers");
   return printers
@@ -14,7 +16,6 @@ export async function getStaticPaths() {
     }));
 }
 
-const { printerId, title, repo } = Astro.props;
 const allMods = await getCollection("printer-mods");
 const mods = allMods
   .filter((m) => m.data.printerId === printerId)
@@ -32,9 +33,9 @@ const mods = allMods
     Community-contributed modifications for the {title}.
   </p>
 
-  <LinkButton href={`https://github.com/${repo}`} icon="github" target="_blank"
-    >View files on GitHub</LinkButton
-  >
+  <LinkButton href={`https://github.com/${repo}`} icon="github" target="_blank">
+    View files on GitHub
+  </LinkButton>
 
   <ModGrid printerId={printerId} mods={mods.map((m) => m.data)} />
 </StarlightPage>
