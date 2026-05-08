@@ -33,11 +33,11 @@ const sortedAuthors = Object.keys(modsByAuthor).sort((a, b) => {
         <h3>{author}</h3>
 
         <CardGrid>
-          {modsByAuthor[author].map((mod) => (
+          {modsByAuthor[author]?.map((mod) => (
             <LinkCard
               title={mod.name}
               href={`/printers/${printerId}/mods/${mod.id}/`}
-              description={mod.description || undefined}
+              description={mod.description ?? ""}
             />
           ))}
         </CardGrid>
