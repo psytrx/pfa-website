@@ -24,6 +24,7 @@
   "devDependencies": {
     "@astrojs/starlight-tailwind": "^5.0.0",
     "@astrojs/ts-plugin": "^1.10.7",
+    "@tsconfig/strictest": "^2.0.8",
     "@typescript-eslint/parser": "^8.59.1",
     "eslint": "^10.3.0",
     "eslint-plugin-astro": "^1.7.0",
