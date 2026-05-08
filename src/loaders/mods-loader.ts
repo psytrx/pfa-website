@@ -20,8 +20,15 @@ interface ModEntry {
 }
 
 function extractDescription(readme: string | null): string | null {
-  if (!readme) return null;
-  const firstParagraph = readme.split(/\n\n+/)[0];
+  if (!readme) {
+    return null;
+  }
+
+  const firstParagraph = readme.split(/\n\n+/).at(0);
+  if (!firstParagraph) {
+    return null;
+  }
+
   const plain = firstParagraph
     .replace(/^#+\s+/gm, "")
     .replace(/\*\*(.+?)\*\*/g, "$1")
@@ -31,6 +38,7 @@ function extractDescription(readme: string | null): string | null {
     .replace(/!\[.*?\]\(.+?\)/g, "")
     .replace(/<[^>]+>/g, "")
     .trim();
+
   return plain || null;
 }
 
@@ -47,22 +55,31 @@ async function fetchJSON<T>(url: string, token?: string): Promise<T> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
   };
-  if (token) headers.Authorization = `Bearer ${token}`;
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
+
   const res = await fetch(url, { headers });
   if (!res.ok) {
-    throw new Error(`GitHub API ${res.status}: ${url}`);
+    const text = await res.text();
+    throw new Error(`GitHub HTTP ${res.status}: ${url}`, {
+      cause: { text },
+    });
   }
+
   return res.json();
 }
 
 async function fetchRaw(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url);
-    if (!res.ok) return null;
-    return await res.text();
-  } catch {
-    return null;
+  const res = await fetch(url);
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`GitHub HTTP ${res.status}: ${url}`, {
+      cause: { text },
+    });
   }
+
+  return await res.text();
 }
 
 const PrinterConfigSchema = z.object({
@@ -71,15 +88,19 @@ const PrinterConfigSchema = z.object({
     url: z.string(),
     branch: z.string().optional(),
   }),
-  mods: z.object({
-    repo: z.string(),
-    path: z.string(),
-  }).optional(),
+  mods: z
+    .object({
+      repo: z.string(),
+      path: z.string(),
+    })
+    .optional(),
 });
 
 type PrinterConfig = z.infer<typeof PrinterConfigSchema>;
 
-function hasMods(p: PrinterConfig): p is PrinterConfig & { mods: NonNullable<PrinterConfig["mods"]> } {
+function hasMods(
+  p: PrinterConfig,
+): p is PrinterConfig & { mods: NonNullable<PrinterConfig["mods"]> } {
   return p.mods != null;
 }
 
@@ -133,9 +154,15 @@ async function getModsForPrinter(
     const rel = entry.path.slice(prefix.length + 1);
     const parts = rel.split("/");
     if (depth === 2 && parts.length === 2) {
-      modDirs.set(entry.path, { author: parts[0], name: parts[1] });
+      modDirs.set(entry.path, {
+        author: parts[0],
+        name: parts[1],
+      });
     } else if (depth === 1 && parts.length === 1) {
-      modDirs.set(entry.path, { author: "", name: parts[0] });
+      modDirs.set(entry.path, {
+        author: "",
+        name: parts[0],
+      });
     }
   }
 
@@ -201,28 +228,22 @@ export function modsLoader(): Loader {
         const branch = printer.branch;
         logger.info(`Fetching mods for ${printer.id} from ${repo}`);
 
-        try {
-          const mods = await getModsForPrinter(repo, path, branch, token);
+        const mods = await getModsForPrinter(repo, path, branch, token);
 
-          for (const mod of mods) {
-            const id = `${printer.id}-${mod.id}`;
-            const data = await parseData({
+        for (const mod of mods) {
+          const id = `${printer.id}-${mod.id}`;
+          const data = await parseData({
+            id,
+            data: {
+              ...mod,
+              printerId: printer.id,
               id,
-              data: {
-                ...mod,
-                printerId: printer.id,
-                id,
-              },
-            });
-            store.set({ id, data });
-          }
-
-          logger.info(`Found ${mods.length} mods for ${printer.id}`);
-        } catch (err) {
-          logger.warn(
-            `Failed to fetch mods for ${printer.id}: ${err instanceof Error ? err.message : err}`,
-          );
+            },
+          });
+          store.set({ id, data });
         }
+
+        logger.info(`Found ${mods.length} mods for ${printer.id}`);
       }
     },
     schema: z.object({
