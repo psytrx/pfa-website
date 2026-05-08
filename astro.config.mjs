@@ -47,6 +47,7 @@ function generatePrinterSidebar() {
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://replace-me.please.biz",
   integrations: [
     starlight({
       title: "PrintersForAnts",
