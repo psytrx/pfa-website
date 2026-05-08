@@ -10,8 +10,6 @@ export async function getStaticPaths() {
   const printerMap = new Map(printers.map((p) => [p.id, p.data.title]));
   const allMods = await getCollection("printer-mods");
 
-  console.log({ allMods });
-
   return allMods.map((mod) => ({
     params: { id: mod.data.printerId, modId: mod.data.id },
     props: {
