@@ -35,9 +35,7 @@ function extractDescription(readme: string | null): string | null {
 }
 
 function formatName(dirName: string): string {
-  return dirName
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return dirName.replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 function parseGlobDepth(glob: string): number {
@@ -67,10 +65,16 @@ async function fetchRaw(url: string): Promise<string | null> {
   }
 }
 
-function loadPrinterConfigs(baseDir: string): { id: string; branch: string; mods: { repo: string; path: string } }[] {
+function loadPrinterConfigs(
+  baseDir: string,
+): { id: string; branch: string; mods: { repo: string; path: string } }[] {
   const printersDir = resolve(baseDir, "src/content/printers");
   const files = readdirSync(printersDir).filter((f) => f.endsWith(".yaml"));
-  const results: { id: string; branch: string; mods: { repo: string; path: string } }[] = [];
+  const results: {
+    id: string;
+    branch: string;
+    mods: { repo: string; path: string };
+  }[] = [];
 
   for (const file of files) {
     const content = readFileSync(resolve(printersDir, file), "utf-8");
@@ -100,10 +104,15 @@ async function getModsForPrinter(
   const tree = await fetchJSON<{
     tree: { path: string; type: string; size?: number }[];
     truncated?: boolean;
-  }>(`${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`, token);
+  }>(
+    `${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`,
+    token,
+  );
 
   if (tree.truncated) {
-    console.warn(`GitHub tree truncated for ${repo} — some mods may be missing`);
+    console.warn(
+      `GitHub tree truncated for ${repo} — some mods may be missing`,
+    );
   }
 
   const entries = tree.tree.filter(
@@ -172,7 +181,9 @@ export function modsLoader(): Loader {
     name: "mods-loader",
     load: async ({ store, parseData, logger, config }) => {
       const token = process.env.GITHUB_TOKEN;
-      const printers = loadPrinterConfigs(config.root.pathname || process.cwd());
+      const printers = loadPrinterConfigs(
+        config.root.pathname || process.cwd(),
+      );
 
       store.clear();
 
