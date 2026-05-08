@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import { Card, CardGrid, LinkButton } from "@astrojs/starlight/components";
 import { Image } from "astro:assets";
 
 const printers = await getCollection("printers");
@@ -17,34 +18,37 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
 }));
 ---
 
-<div class="grid gap-8">
+<div class="grid gap-16">
   {
     grouped.map(({ label, items }) => (
-      <section>
+      <section class="grid gap-8">
         <h2>{label}</h2>
-        <div class="grid grid-cols-[repeat(auto-fit,minmax(min(50vw,26rem),1fr))] gap-8">
+
+        <CardGrid>
           {items.map(({ id, data }) => (
-            <a
-              href={`/printers/${id}`}
-              class="border-gray-5 hover:border-gray-2 flex flex-col overflow-hidden rounded-lg border text-inherit no-underline transition-colors duration-200"
-            >
+            <Card title={data.title}>
+              <p class="text-balance text-(--sl-color-gray-4) italic">
+                {data.subline}
+              </p>
+
               <Image
                 src={data.image}
                 alt={data.title}
-                widths={[450]}
-                sizes="450px"
-                class="bg-gray-6 aspect-[3/2] w-full object-contain"
+                layout="constrained"
+                width="800"
+                class="aspect-square object-contain"
               />
-              <div class="flex flex-col gap-4 p-4">
-                <h3 class="m-0 mb-1 text-xl">{data.title}</h3>
-                <p class="text-gray-2 m-0 mb-4 text-lg text-balance italic">
-                  {data.subline}
-                </p>
-                <p class="text-gray-2 m-0 text-sm">{data.description}</p>
+
+              <div class="text-center">
+                <p class="text-balance">{data.description}</p>
+
+                <LinkButton href={`/printers/${id}`} variant="secondary">
+                  View printer details
+                </LinkButton>
               </div>
-            </a>
+            </Card>
           ))}
-        </div>
+        </CardGrid>
       </section>
     ))
   }
