@@ -65,24 +65,39 @@ async function fetchRaw(url: string): Promise<string | null> {
   }
 }
 
-function loadPrinterConfigs(
-  baseDir: string,
-): { id: string; branch: string; mods: { repo: string; path: string } }[] {
+const PrinterConfigSchema = z.object({
+  id: z.string(),
+  github: z.object({
+    url: z.string(),
+    branch: z.string().optional(),
+  }),
+  mods: z.object({
+    repo: z.string(),
+    path: z.string(),
+  }).optional(),
+});
+
+type PrinterConfig = z.infer<typeof PrinterConfigSchema>;
+
+function hasMods(p: PrinterConfig): p is PrinterConfig & { mods: NonNullable<PrinterConfig["mods"]> } {
+  return p.mods != null;
+}
+
+function loadPrinterConfigs(baseDir: string) {
   const filePath = resolve(baseDir, "src/content/printers.yaml");
   const content = readFileSync(filePath, "utf-8");
-const printers = YAML.parse(content) as {
-    id: string;
-    github?: { url: string; branch?: string };
-    mods?: { repo: string; path: string };
-  }[];
+  const parsed = YAML.parse(content);
+  const result = z.array(PrinterConfigSchema).safeParse(parsed);
 
-  return printers
-    .filter((p) => p.mods)
-    .map((p) => ({
-      id: p.id,
-      branch: p.github?.branch || "main",
-      mods: p.mods!,
-    }));
+  if (!result.success) {
+    throw new Error(`Invalid printer config: ${result.error.message}`);
+  }
+
+  return result.data.filter(hasMods).map((p) => ({
+    id: p.id,
+    branch: p.github.branch ?? "main",
+    mods: p.mods,
+  }));
 }
 
 async function getModsForPrinter(
