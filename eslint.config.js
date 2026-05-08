@@ -5,12 +5,15 @@ import tseslint from "typescript-eslint";
 
 export default [
   js.configs.recommended,
-  tseslint.configs.recommended,
+  // tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
   {
     rules: {
       // override/add rules settings here, such as:
       // "astro/no-set-html-directive": "error"
     },
+  },
+  {
+    ignores: ["dist/", "node_modules/", ".astro/"],
   },
 ];
