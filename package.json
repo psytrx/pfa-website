@@ -9,7 +9,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier . --write",
-    "lint": "prettier --check . && eslint ."
+    "lint": "prettier --check . && eslint .",
+    "dev:precommit": "npm run format && npm run lint"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.38.4",
