@@ -27,7 +27,8 @@ const rawBase = mod.githubUrl
 marked.use({
   walkTokens(token) {
     if (token.type === "image" && !/^https?:\/\//.test(token.href)) {
-      token.href = `${rawBase}/${token.href.replace(/^\.\//, "")}`;
+      const relative = token.href.replace(/^\.\//, "");
+      token.href = `${rawBase}/${relative}`;
     }
   },
 });
