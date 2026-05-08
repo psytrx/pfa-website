@@ -1,5 +1,6 @@
 import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
+import { getSecret } from "astro:env/server";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
@@ -216,7 +217,7 @@ export function modsLoader(): Loader {
   return {
     name: "mods-loader",
     load: async ({ store, parseData, logger, config }) => {
-      const token = process.env.GITHUB_TOKEN;
+      const token = getSecret("GITHUB_TOKEN");
       const printers = loadPrinterConfigs(
         config.root.pathname || process.cwd(),
       );
