@@ -18,6 +18,7 @@ const printers = defineCollection({
         branch: z.string(),
         readme: z.string(),
       }),
+      documentation_pdf: z.string().optional(),
       category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
       mods: z
         .object({

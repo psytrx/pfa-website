@@ -22,16 +22,25 @@ function generatePrinterSidebar() {
       .filter((p) => p.category === key)
       .map((p) => {
         const link = `/printers/${p.id}/`;
+        const sub = [{ label: p.title, link }];
+
         if (p.mods) {
-          return {
-            label: p.title,
-            items: [
-              { label: p.title, link },
-              { label: `${p.title} Mods`, link: `/printers/${p.id}/mods/` },
-            ],
-          };
+          sub.push({
+            label: `${p.title} Mods`,
+            link: `/printers/${p.id}/mods/`,
+          });
         }
-        return { label: p.title, link };
+
+        if (p.documentation_pdf) {
+          sub.push({
+            label: "Documentation",
+            link: `/printers/${p.id}/documentation/`,
+          });
+        }
+
+        return sub.length > 1
+          ? { label: p.title, items: sub }
+          : { label: p.title, link };
       });
 
     return { label, items };

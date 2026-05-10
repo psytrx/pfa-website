@@ -95,6 +95,7 @@
     url: https://github.com/hartk1213/Micron
     branch: main
     readme: README.md
+  documentation_pdf: /pdfs/micron-manual.pdf
   category: scratch-builds
   mods:
     repo: PrintersForAnts/Micron
