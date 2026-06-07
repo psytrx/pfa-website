@@ -14,10 +14,27 @@ interface ModEntry {
   name: string;
   author: string;
   description: string | null;
+  thumbnail: string | null;
   path: string;
   readme: string | null;
   readmeExtension: string | null;
   githubUrl: string;
+}
+
+function extractThumbnail(
+  readme: string | null,
+  rawBase: string,
+): string | null {
+  if (!readme) return null;
+
+  const match = readme.match(/!\[.*?\]\(([^)]+)\)/);
+  if (!match || !match[1]) return null;
+
+  let href = match[1];
+  if (!/^https?:\/\//.test(href)) {
+    href = `${rawBase}/${href.replace(/^\.\//, "")}`;
+  }
+  return href;
 }
 
 function extractDescription(readme: string | null): string | null {
@@ -38,6 +55,8 @@ function extractDescription(readme: string | null): string | null {
     .replace(/\[(.+?)\]\(.+?\)/g, "$1")
     .replace(/!\[.*?\]\(.+?\)/g, "")
     .replace(/<[^>]+>/g, "")
+    // replace all &#xABCD; :
+    .replace(/&#x[a-f0-9]+;/gi, "")
     .trim();
 
   return plain || null;
@@ -198,12 +217,15 @@ async function getModsForPrinter(
       );
     }
 
+    const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}/${dirPath}`;
+
     mods.push({
       id: `${owner}-${name}-${dirPath}`.replace(/[/.]/g, "-").toLowerCase(),
       printerId: "",
       name: formatName(modName),
       author: author ? formatName(author) : "",
       description: extractDescription(readme),
+      thumbnail: extractThumbnail(readme, rawBase),
       path: dirPath,
       readme,
       readmeExtension,
@@ -254,6 +276,7 @@ export function modsLoader(): Loader {
       name: z.string(),
       author: z.string(),
       description: z.string().nullable(),
+      thumbnail: z.string().nullable(),
       path: z.string(),
       readme: z.string().nullable(),
       readmeExtension: z.string().nullable(),

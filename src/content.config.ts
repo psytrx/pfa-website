@@ -37,6 +37,7 @@ const printerMods = defineCollection({
     name: z.string(),
     author: z.string(),
     description: z.string().nullable(),
+    thumbnail: z.string().nullable(),
     path: z.string(),
     readme: z.string().nullable(),
     readmeExtension: z.string().nullable(),

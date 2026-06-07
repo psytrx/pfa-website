@@ -1,5 +1,5 @@
 ---
-import { LinkCard, CardGrid } from "@astrojs/starlight/components";
+import { Card, CardGrid, LinkButton } from "@astrojs/starlight/components";
 
 interface Props {
   printerId: string;
@@ -8,6 +8,7 @@ interface Props {
     name: string;
     author: string;
     description: string | null;
+    thumbnail?: string | null;
   }[];
 }
 
@@ -34,11 +35,31 @@ const sortedAuthors = Object.keys(modsByAuthor).sort((a, b) => {
 
         <CardGrid>
           {modsByAuthor[author]?.map((mod) => (
-            <LinkCard
-              title={mod.name}
-              href={`/printers/${printerId}/mods/${mod.id}/`}
-              description={mod.description ?? ""}
-            />
+            <Card title={mod.name}>
+              <div class="flex flex-col items-start gap-2">
+                {mod.thumbnail && (
+                  <a href={`/printers/${printerId}/mods/${mod.id}/`}>
+                    <img
+                      src={mod.thumbnail}
+                      alt={mod.name}
+                      class="aspect-video w-full rounded object-cover"
+                      loading="lazy"
+                    />
+                  </a>
+                )}
+
+                <p class="text-sm text-(--sl-color-gray-3)">
+                  {mod.description ?? "No description available."}
+                </p>
+
+                <LinkButton
+                  href={`/printers/${printerId}/mods/${mod.id}/`}
+                  variant="secondary"
+                >
+                  View mod details
+                </LinkButton>
+              </div>
+            </Card>
           ))}
         </CardGrid>
       </section>
