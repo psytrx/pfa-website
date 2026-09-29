@@ -3,7 +3,7 @@ import { z } from "astro/zod";
 import { file } from "astro/loaders";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
-import { modsLoader } from "./loaders/mods-loader";
+import { ModEntrySchema, modsLoader } from "./loaders/mods-loader";
 
 const printers = defineCollection({
   loader: file("src/content/printers.yaml"),
@@ -31,18 +31,7 @@ const printers = defineCollection({
 
 const printerMods = defineCollection({
   loader: modsLoader(),
-  schema: z.object({
-    id: z.string(),
-    printerId: z.string(),
-    name: z.string(),
-    author: z.string(),
-    description: z.string().nullable(),
-    thumbnail: z.string().nullable(),
-    path: z.string(),
-    readme: z.string().nullable(),
-    readmeExtension: z.string().nullable(),
-    githubUrl: z.string(),
-  }),
+  schema: ModEntrySchema,
 });
 
 export const collections = {

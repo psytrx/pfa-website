@@ -9,36 +9,57 @@ const GITHUB_RAW = "https://raw.githubusercontent.com";
 const CACHE_TTL_MS = 60 * 60 * 1000;
 const CACHE_META_PREFIX = "mods-loader:";
 
-interface ModEntry {
-  id: string;
-  printerId: string;
-  name: string;
-  author: string;
-  description: string | null;
-  thumbnail: string | null;
-  path: string;
-  readme: string | null;
-  readmeExtension: string | null;
-  githubUrl: string;
-}
+const ModEntrySchema = z.object({
+  id: z.string(),
+  printerId: z.string(),
+  name: z.string(),
+  author: z.string(),
+  description: z.string().nullable(),
+  thumbnail: z.string().nullable(),
+  path: z.string(),
+  readme: z.string().nullable(),
+  readmeExtension: z.string().nullable(),
+  githubUrl: z.string(),
+});
 
-interface PrinterCacheState {
-  source: string;
-  syncedAt: number;
-  readmeShas: Record<string, string>;
-  entryIds: string[];
-}
+export { ModEntrySchema };
 
-interface CachedReadme {
-  readme: string | null;
-  readmeExtension: string | null;
-}
+const ReadmeShasSchema = z.record(z.string(), z.string());
 
-interface ReadmeInfo {
-  path: string;
-  extension: string;
-  sha: string | undefined;
-}
+const PrinterCacheStateSchema = z.object({
+  source: z.string(),
+  syncedAt: z.number(),
+  readmeShas: ReadmeShasSchema,
+  entryIds: z.array(z.string()),
+});
+
+const CachedReadmeSchema = z.object({
+  readme: z.string().nullable(),
+  readmeExtension: z.string().nullable(),
+});
+
+const ReadmeInfoSchema = z.object({
+  path: z.string(),
+  extension: z.string(),
+  sha: z.string().optional(),
+});
+
+const ModDirectorySchema = z.object({
+  author: z.string(),
+  name: z.string(),
+});
+
+const ModsForPrinterSchema = z.object({
+  mods: z.array(ModEntrySchema),
+  readmeShas: ReadmeShasSchema,
+});
+
+type ModEntry = z.infer<typeof ModEntrySchema>;
+type PrinterCacheState = z.infer<typeof PrinterCacheStateSchema>;
+type CachedReadme = z.infer<typeof CachedReadmeSchema>;
+type ReadmeInfo = z.infer<typeof ReadmeInfoSchema>;
+type ModDirectory = z.infer<typeof ModDirectorySchema>;
+type ModsForPrinter = z.infer<typeof ModsForPrinterSchema>;
 
 function extractThumbnail(
   readme: string | null,
@@ -153,22 +174,7 @@ function parseCacheState(value: string | undefined): PrinterCacheState | null {
 
   try {
     const parsed: unknown = JSON.parse(value);
-    if (typeof parsed !== "object" || parsed === null) return null;
-
-    const state = parsed as Partial<PrinterCacheState>;
-    if (
-      typeof state.source !== "string" ||
-      typeof state.syncedAt !== "number" ||
-      !Array.isArray(state.entryIds) ||
-      !state.entryIds.every((id) => typeof id === "string") ||
-      typeof state.readmeShas !== "object" ||
-      state.readmeShas === null ||
-      !Object.values(state.readmeShas).every((sha) => typeof sha === "string")
-    ) {
-      return null;
-    }
-
-    return state as PrinterCacheState;
+    return PrinterCacheStateSchema.parse(parsed);
   } catch {
     return null;
   }
@@ -186,13 +192,16 @@ function getCachedReadmes(
       continue;
     }
 
-    cachedReadmes.set(data["path"], {
-      readme: typeof data["readme"] === "string" ? data["readme"] : null,
-      readmeExtension:
-        typeof data["readmeExtension"] === "string"
-          ? data["readmeExtension"]
-          : null,
-    });
+    cachedReadmes.set(
+      data["path"],
+      CachedReadmeSchema.parse({
+        readme: typeof data["readme"] === "string" ? data["readme"] : null,
+        readmeExtension:
+          typeof data["readmeExtension"] === "string"
+            ? data["readmeExtension"]
+            : null,
+      }),
+    );
   }
 
   return cachedReadmes;
@@ -210,7 +219,7 @@ async function getModsForPrinter(
   branch: string,
   previousReadmes: Map<string, CachedReadme>,
   previousReadmeShas: Record<string, string>,
-): Promise<{ mods: ModEntry[]; readmeShas: Record<string, string> }> {
+): Promise<ModsForPrinter> {
   const [owner, name] = repo.split("/");
   const depth = parseGlobDepth(path);
   const prefix = path.replace(/\*+\/?/g, "").replace(/\/$/, "");
@@ -227,20 +236,26 @@ async function getModsForPrinter(
     (e) => e.type === "tree" && e.path.startsWith(prefix + "/"),
   );
 
-  const modDirs = new Map<string, { author: string; name: string }>();
+  const modDirs = new Map<string, ModDirectory>();
   for (const entry of entries) {
     const rel = entry.path.slice(prefix.length + 1);
     const parts = rel.split("/");
     if (depth === 2 && parts.length === 2) {
-      modDirs.set(entry.path, {
-        author: parts[0] || "",
-        name: parts[1] || "",
-      });
+      modDirs.set(
+        entry.path,
+        ModDirectorySchema.parse({
+          author: parts[0] || "",
+          name: parts[1] || "",
+        }),
+      );
     } else if (depth === 1 && parts.length === 1) {
-      modDirs.set(entry.path, {
-        author: "",
-        name: parts[0] || "",
-      });
+      modDirs.set(
+        entry.path,
+        ModDirectorySchema.parse({
+          author: "",
+          name: parts[0] || "",
+        }),
+      );
     }
   }
 
@@ -257,11 +272,14 @@ async function getModsForPrinter(
     const parentParts = rel.split("/").slice(0, depth);
     const parentPath = prefix + "/" + parentParts.join("/");
     const ext = rf.path.split(".").pop() || "md";
-    readmeMap.set(parentPath, {
-      path: rf.path,
-      extension: ext,
-      sha: rf.sha,
-    });
+    readmeMap.set(
+      parentPath,
+      ReadmeInfoSchema.parse({
+        path: rf.path,
+        extension: ext,
+        sha: rf.sha,
+      }),
+    );
   }
 
   const readmeShas: Record<string, string> = {};
@@ -308,7 +326,7 @@ async function getModsForPrinter(
     });
   }
 
-  return { mods, readmeShas };
+  return ModsForPrinterSchema.parse({ mods, readmeShas });
 }
 
 export function modsLoader(): Loader {
