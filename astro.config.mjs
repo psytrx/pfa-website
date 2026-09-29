@@ -27,26 +27,18 @@ const SidebarPrinterSchema = z.object({
   title: z.string(),
   category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
   documentation_pdf: z.string().optional(),
-});
-
-const ModSourceSchema = z.object({
-  id: z.string(),
-  repo: z.string(),
-  path: z.string(),
+  mods: z
+    .object({
+      repo: z.string(),
+      path: z.string(),
+    })
+    .optional(),
 });
 
 function generatePrinterSidebar() {
   const filePath = resolve("src/content/printers.yaml");
   const content = readFileSync(filePath, "utf-8");
   const printers = z.array(SidebarPrinterSchema).parse(YAML.parse(content));
-  const modSources = z
-    .array(ModSourceSchema)
-    .parse(
-      JSON.parse(
-        readFileSync(resolve("src/content/mod-sources.json"), "utf-8"),
-      ),
-    );
-  const printersWithMods = new Set(modSources.map((source) => source.id));
 
   return Object.entries(CATEGORIES).map(([key, label]) => {
     const items = printers
@@ -55,7 +47,7 @@ function generatePrinterSidebar() {
         const link = `/printers/${p.id}/`;
         const sub = [{ label: p.title, link }];
 
-        if (printersWithMods.has(p.id)) {
+        if (p.mods) {
           sub.push({
             label: `${p.title} Mods`,
             link: `/printers/${p.id}/mods/`,

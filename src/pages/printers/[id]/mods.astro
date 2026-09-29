@@ -6,26 +6,16 @@ import { LinkButton } from "@astrojs/starlight/components";
 
 export async function getStaticPaths() {
   const printers = await getCollection("printers");
-  const modSources = await getCollection("mod-sources");
-  const printersById = new Map(
-    printers.map((printer) => [printer.id, printer]),
-  );
-
-  return modSources.map((source) => {
-    const printer = printersById.get(source.id);
-    if (!printer) {
-      throw new Error(`Mod source references unknown printer: ${source.id}`);
-    }
-
-    return {
+  return printers
+    .filter((printer) => printer.data.mods)
+    .map((printer) => ({
       params: { id: printer.id },
       props: {
         printerId: printer.id,
         title: printer.data.title,
-        repo: source.data.repo,
+        repo: printer.data.mods?.repo,
       },
-    };
-  });
+    }));
 }
 
 const { printerId, title, repo } = Astro.props;
