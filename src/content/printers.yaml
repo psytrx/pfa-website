@@ -53,9 +53,6 @@
     branch: main
     readme: README.md
   category: v0-mods
-  mods:
-    repo: zruncho3d/tri-zero
-    path: "Mods/*/*/"
 
 - id: pandoras-box
   title: Pandora's Box
@@ -67,9 +64,6 @@
     branch: main
     readme: README.md
   category: v0-mods
-  mods:
-    repo: masturmynd/pandoras_box
-    path: "Mods/*/*/"
 
 - id: hex-zero
   title: Hex-Zero
@@ -81,9 +75,6 @@
     branch: main
     readme: README.md
   category: v0-mods
-  mods:
-    repo: Alexander-T-Moss/Hex-Zero
-    path: "Mods/*/*/"
 
 # Scratch Builds
 - id: micron
@@ -97,9 +88,6 @@
     readme: README.md
   documentation_pdf: /pdfs/micron-manual.pdf
   category: scratch-builds
-  mods:
-    repo: PrintersForAnts/Micron
-    path: "Mods/*/*/"
 
 - id: salad-fork
   title: Salad Fork
@@ -123,9 +111,6 @@
     branch: master
     readme: README.md
   category: barely-bigger
-  mods:
-    repo: gsl12/Tiny-M
-    path: "usermods/*/"
 
 - id: tiny-t
   title: Tiny-T
@@ -137,6 +122,3 @@
     branch: main
     readme: readme.md
   category: barely-bigger
-  mods:
-    repo: PrintersForAnts/Tiny-T
-    path: "MODS/*/"

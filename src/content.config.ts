@@ -20,13 +20,15 @@ const printers = defineCollection({
       }),
       documentation_pdf: z.string().optional(),
       category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
-      mods: z
-        .object({
-          repo: z.string(),
-          path: z.string(),
-        })
-        .optional(),
     }),
+});
+
+const modSources = defineCollection({
+  loader: file("src/content/mod-sources.json"),
+  schema: z.object({
+    repo: z.string(),
+    path: z.string(),
+  }),
 });
 
 const printerMods = defineCollection({
@@ -51,5 +53,6 @@ export const collections = {
     schema: docsSchema(),
   }),
   printers,
+  "mod-sources": modSources,
   "printer-mods": printerMods,
 };

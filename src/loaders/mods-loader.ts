@@ -138,15 +138,15 @@ const PrinterConfigSchema = z.object({
     branch: z.string(),
     readme: z.string(),
   }),
-  mods: z
-    .object({
-      repo: z.string(),
-      path: z.string(),
-    })
-    .optional(),
 });
 
-type PrinterConfig = z.infer<typeof PrinterConfigSchema>;
+const ModSourceSchema = z.object({
+  id: z.string(),
+  repo: z.string(),
+  path: z.string(),
+});
+
+type ModSource = z.infer<typeof ModSourceSchema>;
 
 function parseCacheState(value: string | undefined): PrinterCacheState | null {
   if (!value) return null;
@@ -198,22 +198,20 @@ function getCachedReadmes(
   return cachedReadmes;
 }
 
-function hasMods(
-  p: PrinterConfig,
-): p is PrinterConfig & { mods: NonNullable<PrinterConfig["mods"]> } {
-  return p.mods != null;
-}
-
-function loadPrinterConfigs(baseDir: string) {
+function loadPrinterBranches(baseDir: string): Map<string, string> {
   const filePath = resolve(baseDir, "src/content/printers.yaml");
   const content = readFileSync(filePath, "utf-8");
   const printers = z.array(PrinterConfigSchema).parse(YAML.parse(content));
 
-  return printers.filter(hasMods).map((p) => ({
-    id: p.id,
-    github: p.github,
-    mods: p.mods,
-  }));
+  return new Map(
+    printers.map((printer) => [printer.id, printer.github.branch]),
+  );
+}
+
+function loadModSources(baseDir: string): ModSource[] {
+  const filePath = resolve(baseDir, "src/content/mod-sources.json");
+  const content: unknown = JSON.parse(readFileSync(filePath, "utf-8"));
+  return z.array(ModSourceSchema).parse(content);
 }
 
 async function getModsForPrinter(
@@ -327,15 +325,21 @@ export function modsLoader(): Loader {
   return {
     name: "mods-loader",
     load: async ({ store, meta, parseData, logger, config }) => {
-      const printers = loadPrinterConfigs(
-        config.root.pathname || process.cwd(),
-      );
+      const baseDir = config.root.pathname || process.cwd();
+      const printerBranches = loadPrinterBranches(baseDir);
+      const modSources = loadModSources(baseDir);
 
-      for (const printer of printers) {
-        const { repo, path } = printer.mods;
-        const branch = printer.github.branch;
+      for (const modSource of modSources) {
+        const { id: printerId, repo, path } = modSource;
+        const branch = printerBranches.get(printerId);
+        if (!branch) {
+          throw new Error(
+            `Mod source references unknown printer: ${printerId}`,
+          );
+        }
+
         const source = JSON.stringify({ repo, path, branch });
-        const metaKey = `${CACHE_META_PREFIX}${printer.id}`;
+        const metaKey = `${CACHE_META_PREFIX}${printerId}`;
         const cacheState = parseCacheState(meta.get(metaKey));
         const matchingCache = cacheState?.source === source;
         const cachedEntryIds = matchingCache ? cacheState.entryIds : [];
@@ -350,14 +354,14 @@ export function modsLoader(): Loader {
           cacheAge >= 0 &&
           cacheAge < CACHE_TTL_MS
         ) {
-          logger.info(`Using cached mods for ${printer.id}`);
+          logger.info(`Using cached mods for ${printerId}`);
           continue;
         }
 
-        logger.info(`Fetching mods for ${printer.id} from ${repo}`);
+        logger.info(`Fetching mods for ${printerId} from ${repo}`);
 
         try {
-          const cachedReadmes = getCachedReadmes(store, printer.id);
+          const cachedReadmes = getCachedReadmes(store, printerId);
           const { mods, readmeShas } = await getModsForPrinter(
             repo,
             path,
@@ -368,12 +372,12 @@ export function modsLoader(): Loader {
 
           const entries = await Promise.all(
             mods.map(async (mod) => {
-              const id = `${printer.id}-${mod.id}`;
+              const id = `${printerId}-${mod.id}`;
               const data = await parseData({
                 id,
                 data: {
                   ...mod,
-                  printerId: printer.id,
+                  printerId,
                   id,
                 },
               });
@@ -384,7 +388,7 @@ export function modsLoader(): Loader {
           const nextEntryIds = new Set(entries.map(({ id }) => id));
           for (const [id, entry] of store.entries()) {
             if (
-              entry.data["printerId"] === printer.id &&
+              entry.data["printerId"] === printerId &&
               !nextEntryIds.has(id)
             ) {
               store.delete(id);
@@ -405,13 +409,26 @@ export function modsLoader(): Loader {
             } satisfies PrinterCacheState),
           );
 
-          logger.info(`Found ${mods.length} mods for ${printer.id}`);
+          logger.info(`Found ${mods.length} mods for ${printerId}`);
         } catch (error) {
           if (!matchingCache || !hasCachedEntries) throw error;
 
           logger.warn(
-            `Could not refresh mods for ${printer.id}; using cached data: ${error instanceof Error ? error.message : String(error)}`,
+            `Could not refresh mods for ${printerId}; using cached data: ${error instanceof Error ? error.message : String(error)}`,
           );
+        }
+      }
+
+      const configuredPrinterIds = new Set(
+        modSources.map((modSource) => modSource.id),
+      );
+      for (const [id, entry] of store.entries()) {
+        const printerId = entry.data["printerId"];
+        if (
+          typeof printerId === "string" &&
+          !configuredPrinterIds.has(printerId)
+        ) {
+          store.delete(id);
         }
       }
     },
