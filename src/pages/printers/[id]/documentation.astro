@@ -1,25 +1,31 @@
 ---
 import { getCollection } from "astro:content";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { LinkButton } from "@astrojs/starlight/components";
 
 export async function getStaticPaths() {
   const printers = await getCollection("printers");
-  return printers
-    .filter((p) => p.data.documentation_pdf)
-    .map((p) => ({
-      params: { id: p.id },
-      props: { title: p.data.title, pdfPath: p.data.documentation_pdf },
-    }));
+  return printers.flatMap((printer) => {
+    const pdfUrl = printer.data.documentation_pdf;
+    if (!pdfUrl) return [];
+
+    return [
+      {
+        params: { id: printer.id },
+        props: { title: printer.data.title, pdfUrl },
+      },
+    ];
+  });
 }
 
-const { title, pdfPath } = Astro.props;
+const { title, pdfUrl } = Astro.props;
 ---
 
 <StarlightPage frontmatter={{ title: `${title} Documentation` }}>
-  <object data={pdfPath} type="application/pdf" class="h-[90vh] w-full">
+  <object data={pdfUrl} type="application/pdf" class="h-[90vh] w-full">
     <p>
       Your browser does not support embedded PDFs.
-      <a href={pdfPath} download>Download the manual</a> instead.
+      <a href={pdfUrl} download>Download the manual</a> instead.
     </p>
   </object>
 </StarlightPage>
