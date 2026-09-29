@@ -1,12 +1,13 @@
 import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
-import { getSecret } from "astro:env/server";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
 
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
+const CACHE_TTL_MS = 60 * 60 * 1000;
+const CACHE_META_PREFIX = "mods-loader:";
 
 interface ModEntry {
   id: string;
@@ -19,6 +20,24 @@ interface ModEntry {
   readme: string | null;
   readmeExtension: string | null;
   githubUrl: string;
+}
+
+interface PrinterCacheState {
+  source: string;
+  syncedAt: number;
+  readmeShas: Record<string, string>;
+  entryIds: string[];
+}
+
+interface CachedReadme {
+  readme: string | null;
+  readmeExtension: string | null;
+}
+
+interface ReadmeInfo {
+  path: string;
+  extension: string;
+  sha: string | undefined;
 }
 
 function extractThumbnail(
@@ -71,15 +90,10 @@ function parseGlobDepth(glob: string): number {
   return segments.filter((s) => s === "*" || s.includes("*")).length;
 }
 
-async function fetchJSON<T>(url: string, token?: string): Promise<T> {
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github+json",
-  };
-  if (token) {
-    headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  const res = await fetch(url, { headers });
+async function fetchJSON<T>(url: string): Promise<T> {
+  const res = await fetch(url, {
+    headers: { Accept: "application/vnd.github+json" },
+  });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`GitHub HTTP ${res.status}: ${url}`, {
@@ -119,6 +133,56 @@ const PrinterConfigSchema = z.object({
 
 type PrinterConfig = z.infer<typeof PrinterConfigSchema>;
 
+function parseCacheState(value: string | undefined): PrinterCacheState | null {
+  if (!value) return null;
+
+  try {
+    const parsed: unknown = JSON.parse(value);
+    if (typeof parsed !== "object" || parsed === null) return null;
+
+    const state = parsed as Partial<PrinterCacheState>;
+    if (
+      typeof state.source !== "string" ||
+      typeof state.syncedAt !== "number" ||
+      !Array.isArray(state.entryIds) ||
+      !state.entryIds.every((id) => typeof id === "string") ||
+      typeof state.readmeShas !== "object" ||
+      state.readmeShas === null ||
+      !Object.values(state.readmeShas).every((sha) => typeof sha === "string")
+    ) {
+      return null;
+    }
+
+    return state as PrinterCacheState;
+  } catch {
+    return null;
+  }
+}
+
+function getCachedReadmes(
+  store: Parameters<Loader["load"]>[0]["store"],
+  printerId: string,
+): Map<string, CachedReadme> {
+  const cachedReadmes = new Map<string, CachedReadme>();
+
+  for (const entry of store.values()) {
+    const { data } = entry;
+    if (data["printerId"] !== printerId || typeof data["path"] !== "string") {
+      continue;
+    }
+
+    cachedReadmes.set(data["path"], {
+      readme: typeof data["readme"] === "string" ? data["readme"] : null,
+      readmeExtension:
+        typeof data["readmeExtension"] === "string"
+          ? data["readmeExtension"]
+          : null,
+    });
+  }
+
+  return cachedReadmes;
+}
+
 function hasMods(
   p: PrinterConfig,
 ): p is PrinterConfig & { mods: NonNullable<PrinterConfig["mods"]> } {
@@ -146,24 +210,20 @@ async function getModsForPrinter(
   repo: string,
   path: string,
   branch: string,
-  token?: string,
-): Promise<ModEntry[]> {
+  previousReadmes: Map<string, CachedReadme>,
+  previousReadmeShas: Record<string, string>,
+): Promise<{ mods: ModEntry[]; readmeShas: Record<string, string> }> {
   const [owner, name] = repo.split("/");
   const depth = parseGlobDepth(path);
   const prefix = path.replace(/\*+\/?/g, "").replace(/\/$/, "");
 
   const tree = await fetchJSON<{
-    tree: { path: string; type: string; size?: number }[];
+    tree: { path: string; type: string; size?: number; sha?: string }[];
     truncated?: boolean;
-  }>(
-    `${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`,
-    token,
-  );
+  }>(`${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`);
 
   if (tree.truncated) {
-    console.warn(
-      `GitHub tree truncated for ${repo} — some mods may be missing`,
-    );
+    throw new Error(`GitHub tree truncated for ${repo}; keeping cached mods`);
   }
 
   const entries = tree.tree.filter(
@@ -194,13 +254,22 @@ async function getModsForPrinter(
       /^readme\.(md|txt|markdown)$/i.test(e.path.split("/").pop() || ""),
   );
 
-  const readmeMap = new Map<string, { path: string; extension: string }>();
+  const readmeMap = new Map<string, ReadmeInfo>();
   for (const rf of readmeFiles) {
     const rel = rf.path.slice(prefix.length + 1);
     const parentParts = rel.split("/").slice(0, depth);
     const parentPath = prefix + "/" + parentParts.join("/");
     const ext = rf.path.split(".").pop() || "md";
-    readmeMap.set(parentPath, { path: rf.path, extension: ext });
+    readmeMap.set(parentPath, {
+      path: rf.path,
+      extension: ext,
+      sha: rf.sha,
+    });
+  }
+
+  const readmeShas: Record<string, string> = {};
+  for (const readmeFile of readmeFiles) {
+    if (readmeFile.sha) readmeShas[readmeFile.path] = readmeFile.sha;
   }
 
   const mods: ModEntry[] = [];
@@ -212,9 +281,18 @@ async function getModsForPrinter(
 
     if (readmeInfo) {
       readmeExtension = readmeInfo.extension;
-      readme = await fetchRaw(
-        `${GITHUB_RAW}/${owner}/${name}/${branch}/${readmeInfo.path}`,
-      );
+      const cachedReadme = previousReadmes.get(dirPath);
+      if (
+        cachedReadme &&
+        readmeInfo.sha &&
+        previousReadmeShas[readmeInfo.path] === readmeInfo.sha
+      ) {
+        readme = cachedReadme.readme;
+      } else {
+        readme = await fetchRaw(
+          `${GITHUB_RAW}/${owner}/${name}/${branch}/${readmeInfo.path}`,
+        );
+      }
     }
 
     const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}/${dirPath}`;
@@ -233,41 +311,99 @@ async function getModsForPrinter(
     });
   }
 
-  return mods;
+  return { mods, readmeShas };
 }
 
 export function modsLoader(): Loader {
   return {
     name: "mods-loader",
-    load: async ({ store, parseData, logger, config }) => {
-      const token = getSecret("GITHUB_TOKEN");
+    load: async ({ store, meta, parseData, logger, config }) => {
       const printers = loadPrinterConfigs(
         config.root.pathname || process.cwd(),
       );
 
-      store.clear();
-
       for (const printer of printers) {
         const { repo, path } = printer.mods;
         const branch = printer.github.branch;
-        logger.info(`Fetching mods for ${printer.id} from ${repo}`);
+        const source = JSON.stringify({ repo, path, branch });
+        const metaKey = `${CACHE_META_PREFIX}${printer.id}`;
+        const cacheState = parseCacheState(meta.get(metaKey));
+        const matchingCache = cacheState?.source === source;
+        const cachedEntryIds = matchingCache ? cacheState.entryIds : [];
+        const hasCachedEntries = cachedEntryIds.every((id) => store.has(id));
+        const cacheAge = cacheState
+          ? Date.now() - cacheState.syncedAt
+          : Infinity;
 
-        const mods = await getModsForPrinter(repo, path, branch, token);
-
-        for (const mod of mods) {
-          const id = `${printer.id}-${mod.id}`;
-          const data = await parseData({
-            id,
-            data: {
-              ...mod,
-              printerId: printer.id,
-              id,
-            },
-          });
-          store.set({ id, data });
+        if (
+          matchingCache &&
+          hasCachedEntries &&
+          cacheAge >= 0 &&
+          cacheAge < CACHE_TTL_MS
+        ) {
+          logger.info(`Using cached mods for ${printer.id}`);
+          continue;
         }
 
-        logger.info(`Found ${mods.length} mods for ${printer.id}`);
+        logger.info(`Fetching mods for ${printer.id} from ${repo}`);
+
+        try {
+          const cachedReadmes = getCachedReadmes(store, printer.id);
+          const { mods, readmeShas } = await getModsForPrinter(
+            repo,
+            path,
+            branch,
+            cachedReadmes,
+            matchingCache ? cacheState.readmeShas : {},
+          );
+
+          const entries = await Promise.all(
+            mods.map(async (mod) => {
+              const id = `${printer.id}-${mod.id}`;
+              const data = await parseData({
+                id,
+                data: {
+                  ...mod,
+                  printerId: printer.id,
+                  id,
+                },
+              });
+              return { id, data };
+            }),
+          );
+
+          const nextEntryIds = new Set(entries.map(({ id }) => id));
+          for (const [id, entry] of store.entries()) {
+            if (
+              entry.data["printerId"] === printer.id &&
+              !nextEntryIds.has(id)
+            ) {
+              store.delete(id);
+            }
+          }
+
+          for (const entry of entries) {
+            store.set(entry);
+          }
+
+          meta.set(
+            metaKey,
+            JSON.stringify({
+              source,
+              syncedAt: Date.now(),
+              readmeShas,
+              entryIds: entries.map(({ id }) => id),
+            } satisfies PrinterCacheState),
+          );
+
+          logger.info(`Found ${mods.length} mods for ${printer.id}`);
+        } catch (error) {
+          if (!matchingCache || !hasCachedEntries) throw error;
+
+          logger.warn(
+            `Could not refresh mods for ${printer.id}; using cached data: ${error instanceof Error ? error.message : String(error)}`,
+          );
+        }
       }
     },
     schema: z.object({
