@@ -1,8 +1,6 @@
 import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
-import YAML from "yaml";
+import { printers } from "../content/printers";
 
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
@@ -152,23 +150,6 @@ async function fetchRaw(url: string): Promise<string | null> {
   return await res.text();
 }
 
-const PrinterConfigSchema = z.object({
-  id: z.string(),
-  github: z.object({
-    url: z.string(),
-    branch: z.string(),
-    readme: z.string(),
-  }),
-  mods: z
-    .object({
-      repo: z.string(),
-      path: z.string(),
-    })
-    .optional(),
-});
-
-type PrinterConfig = z.infer<typeof PrinterConfigSchema>;
-
 function parseCacheState(value: string | undefined): PrinterCacheState | null {
   if (!value) return null;
 
@@ -205,12 +186,6 @@ function getCachedReadmes(
   }
 
   return cachedReadmes;
-}
-
-function loadPrinterConfigs(baseDir: string): PrinterConfig[] {
-  const filePath = resolve(baseDir, "src/content/printers.yaml");
-  const content = readFileSync(filePath, "utf-8");
-  return z.array(PrinterConfigSchema).parse(YAML.parse(content));
 }
 
 async function getModsForPrinter(
@@ -332,10 +307,7 @@ async function getModsForPrinter(
 export function modsLoader(): Loader {
   return {
     name: "mods-loader",
-    load: async ({ store, meta, parseData, logger, config }) => {
-      const baseDir = config.root.pathname || process.cwd();
-      const printers = loadPrinterConfigs(baseDir);
-
+    load: async ({ store, meta, parseData, logger }) => {
       for (const printer of printers) {
         if (!printer.mods) continue;
 

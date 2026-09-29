@@ -1,13 +1,9 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
 import { cwd, env } from "node:process";
-import YAML from "yaml";
 import { loadEnv } from "vite";
-import { z } from "astro/zod";
+import { printers } from "./src/content/printers";
 
 const mode = env["NODE_ENV"] ?? "development";
 const { PUBLIC_SITE_URL } = loadEnv(mode, cwd(), "PUBLIC_");
@@ -22,24 +18,7 @@ const CATEGORIES = {
   "barely-bigger": "Barely Bigger Mini Printers",
 };
 
-const SidebarPrinterSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
-  documentation_pdf: z.string().optional(),
-  mods: z
-    .object({
-      repo: z.string(),
-      path: z.string(),
-    })
-    .optional(),
-});
-
 function generatePrinterSidebar() {
-  const filePath = resolve("src/content/printers.yaml");
-  const content = readFileSync(filePath, "utf-8");
-  const printers = z.array(SidebarPrinterSchema).parse(YAML.parse(content));
-
   return Object.entries(CATEGORIES).map(([key, label]) => {
     const items = printers
       .filter((p) => p.category === key)

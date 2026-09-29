@@ -1,12 +1,12 @@
 import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
-import { file } from "astro/loaders";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { ModEntrySchema, modsLoader } from "./loaders/mods-loader";
+import { printersLoader } from "./loaders/printers-loader";
 
 const printers = defineCollection({
-  loader: file("src/content/printers.yaml"),
+  loader: printersLoader(),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
