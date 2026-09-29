@@ -2,8 +2,35 @@
 import { getCollection } from "astro:content";
 import { Card, CardGrid, LinkButton } from "@astrojs/starlight/components";
 import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { printerImagePaths, type PrinterImagePath } from "../content/printers";
+import crucibleHero from "../assets/printers/crucible-hero.png";
+import doubleDragonHero from "../assets/printers/double-dragon-hero.png";
+import duelingZeroHero from "../assets/printers/dueling-zero-hero.png";
+import fZeroHero from "../assets/printers/f-zero-hero.png";
+import hexZeroHero from "../assets/printers/hex-zero-hero.png";
+import micronHero from "../assets/printers/micron-hero.png";
+import pandorasBoxHero from "../assets/printers/pandoras-box-hero.png";
+import saladForkHero from "../assets/printers/salad-fork-hero.png";
+import tinyMHero from "../assets/printers/tiny-m-hero.png";
+import tinyTHero from "../assets/printers/tiny-t-hero.png";
+import triZeroHero from "../assets/printers/tri-zero-hero.png";
 
 const printers = await getCollection("printers");
+
+const printerImages = {
+  [printerImagePaths.crucible]: crucibleHero,
+  [printerImagePaths.doubleDragon]: doubleDragonHero,
+  [printerImagePaths.duelingZero]: duelingZeroHero,
+  [printerImagePaths.fZero]: fZeroHero,
+  [printerImagePaths.hexZero]: hexZeroHero,
+  [printerImagePaths.micron]: micronHero,
+  [printerImagePaths.pandorasBox]: pandorasBoxHero,
+  [printerImagePaths.saladFork]: saladForkHero,
+  [printerImagePaths.tinyM]: tinyMHero,
+  [printerImagePaths.tinyT]: tinyTHero,
+  [printerImagePaths.triZero]: triZeroHero,
+} satisfies Record<PrinterImagePath, ImageMetadata>;
 
 const categories = {
   "scratch-builds": "Scratch Builds",
@@ -33,7 +60,7 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
 
                 <a href={`/printers/${id}`}>
                   <Image
-                    src={data.image}
+                    src={printerImages[data.image]}
                     alt={data.title}
                     layout="constrained"
                     width="800"
