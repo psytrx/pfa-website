@@ -90,7 +90,21 @@ function parseGlobDepth(glob: string): number {
   return segments.filter((s) => s === "*" || s.includes("*")).length;
 }
 
-async function fetchJSON<T>(url: string): Promise<T> {
+const GitHubTreeSchema = z.object({
+  tree: z.array(
+    z.object({
+      path: z.string(),
+      type: z.string(),
+      size: z.number().optional(),
+      sha: z.string().optional(),
+    }),
+  ),
+  truncated: z.boolean().optional(),
+});
+
+type GitHubTree = z.infer<typeof GitHubTreeSchema>;
+
+async function fetchGitHubTree(url: string): Promise<GitHubTree> {
   const res = await fetch(url, {
     headers: { Accept: "application/vnd.github+json" },
   });
@@ -101,7 +115,8 @@ async function fetchJSON<T>(url: string): Promise<T> {
     });
   }
 
-  return res.json();
+  const payload: unknown = await res.json();
+  return GitHubTreeSchema.parse(payload);
 }
 
 async function fetchRaw(url: string): Promise<string | null> {
@@ -192,14 +207,9 @@ function hasMods(
 function loadPrinterConfigs(baseDir: string) {
   const filePath = resolve(baseDir, "src/content/printers.yaml");
   const content = readFileSync(filePath, "utf-8");
-  const parsed = YAML.parse(content);
-  const result = z.array(PrinterConfigSchema).safeParse(parsed);
+  const printers = z.array(PrinterConfigSchema).parse(YAML.parse(content));
 
-  if (!result.success) {
-    throw new Error(`Invalid printer config: ${result.error.message}`);
-  }
-
-  return result.data.filter(hasMods).map((p) => ({
+  return printers.filter(hasMods).map((p) => ({
     id: p.id,
     github: p.github,
     mods: p.mods,
@@ -217,10 +227,9 @@ async function getModsForPrinter(
   const depth = parseGlobDepth(path);
   const prefix = path.replace(/\*+\/?/g, "").replace(/\/$/, "");
 
-  const tree = await fetchJSON<{
-    tree: { path: string; type: string; size?: number; sha?: string }[];
-    truncated?: boolean;
-  }>(`${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`);
+  const tree = await fetchGitHubTree(
+    `${GITHUB_API}/repos/${owner}/${name}/git/trees/${branch}?recursive=1`,
+  );
 
   if (tree.truncated) {
     throw new Error(`GitHub tree truncated for ${repo}; keeping cached mods`);

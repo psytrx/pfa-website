@@ -4,11 +4,13 @@ import starlight from "@astrojs/starlight";
 import tailwindcss from "@tailwindcss/vite";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
+import { cwd, env } from "node:process";
 import YAML from "yaml";
 import { loadEnv } from "vite";
+import { z } from "astro/zod";
 
-const mode = process.env["NODE_ENV"] ?? "development";
-const { PUBLIC_SITE_URL } = loadEnv(mode, process.cwd(), "PUBLIC_");
+const mode = env["NODE_ENV"] ?? "development";
+const { PUBLIC_SITE_URL } = loadEnv(mode, cwd(), "PUBLIC_");
 
 if (!PUBLIC_SITE_URL) {
   throw new Error("PUBLIC_SITE_URL must be set");
@@ -20,10 +22,23 @@ const CATEGORIES = {
   "barely-bigger": "Barely Bigger Mini Printers",
 };
 
+const SidebarPrinterSchema = z.object({
+  id: z.string(),
+  title: z.string(),
+  category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
+  mods: z
+    .object({
+      repo: z.string(),
+      path: z.string(),
+    })
+    .optional(),
+  documentation_pdf: z.string().optional(),
+});
+
 function generatePrinterSidebar() {
   const filePath = resolve("src/content/printers.yaml");
   const content = readFileSync(filePath, "utf-8");
-  const printers = YAML.parse(content);
+  const printers = z.array(SidebarPrinterSchema).parse(YAML.parse(content));
 
   return Object.entries(CATEGORIES).map(([key, label]) => {
     const items = printers
