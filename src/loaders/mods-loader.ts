@@ -169,12 +169,15 @@ function getCachedReadmes(
 
   for (const entry of store.values()) {
     const { data } = entry;
-    if (data["printerId"] !== printerId || typeof data["path"] !== "string") {
+    if (
+      data["printerId"] !== printerId ||
+      typeof data["githubUrl"] !== "string"
+    ) {
       continue;
     }
 
     cachedReadmes.set(
-      data["path"],
+      data["githubUrl"],
       CachedReadmeSchema.parse({
         readme: typeof data["readme"] === "string" ? data["readme"] : null,
         readmeExtension:
@@ -259,7 +262,10 @@ async function getModsForPrinter(
 
   const readmeShas: Record<string, string> = {};
   for (const readmeFile of readmeFiles) {
-    if (readmeFile.sha) readmeShas[readmeFile.path] = readmeFile.sha;
+    if (readmeFile.sha) {
+      readmeShas[`${owner}/${name}/${branch}/${readmeFile.path}`] =
+        readmeFile.sha;
+    }
   }
 
   const mods: ModEntry[] = [];
@@ -268,14 +274,16 @@ async function getModsForPrinter(
     const readmeInfo = readmeMap.get(dirPath);
     let readme: string | null = null;
     let readmeExtension: string | null = null;
+    const githubUrl = `https://github.com/${owner}/${name}/tree/${branch}/${dirPath}`;
 
     if (readmeInfo) {
       readmeExtension = readmeInfo.extension;
-      const cachedReadme = previousReadmes.get(dirPath);
+      const cachedReadme = previousReadmes.get(githubUrl);
+      const readmeShaKey = `${owner}/${name}/${branch}/${readmeInfo.path}`;
       if (
         cachedReadme &&
         readmeInfo.sha &&
-        previousReadmeShas[readmeInfo.path] === readmeInfo.sha
+        previousReadmeShas[readmeShaKey] === readmeInfo.sha
       ) {
         readme = cachedReadme.readme;
       } else {
@@ -297,7 +305,7 @@ async function getModsForPrinter(
       path: dirPath,
       readme,
       readmeExtension,
-      githubUrl: `https://github.com/${owner}/${name}/tree/${branch}/${dirPath}`,
+      githubUrl,
     });
   }
 
@@ -309,14 +317,17 @@ export function modsLoader(): Loader {
     name: "mods-loader",
     load: async ({ store, meta, parseData, logger }) => {
       for (const printer of printers) {
-        if (!printer.mods) continue;
-
         const { id: printerId, mods } = printer;
-        const { repo, path } = mods;
-        const branch = printer.github.branch;
-
-        const source = JSON.stringify({ repo, path, branch });
         const metaKey = `${CACHE_META_PREFIX}${printerId}`;
+        if (mods.length === 0) {
+          meta.delete(metaKey);
+          continue;
+        }
+
+        const branch = printer.github.branch;
+        const source = JSON.stringify(
+          mods.map(({ repo, path }) => ({ repo, path, branch })),
+        );
         const cacheState = parseCacheState(meta.get(metaKey));
         const matchingCache = cacheState?.source === source;
         const cachedEntryIds = matchingCache ? cacheState.entryIds : [];
@@ -335,20 +346,33 @@ export function modsLoader(): Loader {
           continue;
         }
 
-        logger.info(`Fetching mods for ${printerId} from ${repo}`);
+        logger.info(
+          `Fetching mods for ${printerId} from ${mods.map(({ repo }) => repo).join(", ")}`,
+        );
 
         try {
           const cachedReadmes = getCachedReadmes(store, printerId);
-          const { mods, readmeShas } = await getModsForPrinter(
-            repo,
-            path,
-            branch,
-            cachedReadmes,
-            matchingCache ? cacheState.readmeShas : {},
+          const sourceResults: ModsForPrinter[] = [];
+          for (const { repo, path } of mods) {
+            sourceResults.push(
+              await getModsForPrinter(
+                repo,
+                path,
+                branch,
+                cachedReadmes,
+                matchingCache ? cacheState.readmeShas : {},
+              ),
+            );
+          }
+
+          const discoveredMods = sourceResults.flatMap((result) => result.mods);
+          const readmeShas = Object.assign(
+            {},
+            ...sourceResults.map((result) => result.readmeShas),
           );
 
           const entries = await Promise.all(
-            mods.map(async (mod) => {
+            discoveredMods.map(async (mod) => {
               const id = `${printerId}-${mod.id}`;
               const data = await parseData({
                 id,
@@ -386,7 +410,7 @@ export function modsLoader(): Loader {
             } satisfies PrinterCacheState),
           );
 
-          logger.info(`Found ${mods.length} mods for ${printerId}`);
+          logger.info(`Found ${discoveredMods.length} mods for ${printerId}`);
         } catch (error) {
           if (!matchingCache || !hasCachedEntries) throw error;
 
@@ -397,7 +421,9 @@ export function modsLoader(): Loader {
       }
 
       const configuredPrinterIds = new Set(
-        printers.filter((printer) => printer.mods).map((printer) => printer.id),
+        printers
+          .filter((printer) => printer.mods.length > 0)
+          .map((printer) => printer.id),
       );
       for (const [id, entry] of store.entries()) {
         const printerId = entry.data["printerId"];

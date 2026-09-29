@@ -7,18 +7,18 @@ import { LinkButton } from "@astrojs/starlight/components";
 export async function getStaticPaths() {
   const printers = await getCollection("printers");
   return printers
-    .filter((printer) => printer.data.mods)
+    .filter((printer) => printer.data.mods.length > 0)
     .map((printer) => ({
       params: { id: printer.id },
       props: {
         printerId: printer.id,
         title: printer.data.title,
-        repo: printer.data.mods?.repo,
+        repos: [...new Set(printer.data.mods.map(({ repo }) => repo))],
       },
     }));
 }
 
-const { printerId, title, repo } = Astro.props;
+const { printerId, title, repos } = Astro.props;
 
 const allMods = await getCollection("printer-mods");
 const mods = allMods
@@ -45,14 +45,20 @@ const mods = allMods
       Community-contributed modifications for the {title}.
     </p>
 
-    <LinkButton
-      href={`https://github.com/${repo}`}
-      icon="github"
-      target="_blank"
-      variant="secondary"
-    >
-      View on GitHub
-    </LinkButton>
+    <div class="flex flex-wrap gap-2">
+      {
+        repos.map((repo) => (
+          <LinkButton
+            href={`https://github.com/${repo}`}
+            icon="github"
+            target="_blank"
+            variant="secondary"
+          >
+            View on GitHub
+          </LinkButton>
+        ))
+      }
+    </div>
 
     <ModGrid printerId={printerId} mods={mods} />
   </div>

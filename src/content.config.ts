@@ -32,12 +32,12 @@ const printers = defineCollection({
     }),
     documentation_pdf: z.string().optional(),
     category: z.enum(["scratch-builds", "v0-mods", "barely-bigger"]),
-    mods: z
-      .object({
+    mods: z.array(
+      z.object({
         repo: z.string(),
         path: z.string(),
-      })
-      .optional(),
+      }),
+    ),
   }),
 });
 

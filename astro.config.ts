@@ -26,7 +26,7 @@ function generatePrinterSidebar() {
         const link = `/printers/${p.id}/`;
         const sub = [{ label: p.title, link }];
 
-        if (p.mods) {
+        if (p.mods.length > 0) {
           sub.push({
             label: `${p.title} Mods`,
             link: `/printers/${p.id}/mods/`,

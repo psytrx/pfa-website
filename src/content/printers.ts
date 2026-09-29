@@ -30,10 +30,10 @@ export type PrinterConfig = {
   };
   documentation_pdf?: string;
   category: PrinterCategory;
-  mods?: {
+  mods: {
     repo: string;
     path: string;
-  };
+  }[];
 };
 
 export const printers: PrinterConfig[] = [
@@ -50,6 +50,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
+    mods: [],
   },
   {
     id: "double-dragon",
@@ -64,6 +65,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
+    mods: [],
   },
   {
     id: "crucible",
@@ -78,6 +80,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
+    mods: [],
   },
   {
     id: "f-zero",
@@ -92,6 +95,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
+    mods: [],
   },
   {
     id: "tri-zero",
@@ -106,10 +110,12 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
-    mods: {
-      repo: "zruncho3d/tri-zero",
-      path: "Mods/*/*/",
-    },
+    mods: [
+      {
+        repo: "zruncho3d/tri-zero",
+        path: "Mods/*/*/",
+      },
+    ],
   },
   {
     id: "pandoras-box",
@@ -124,10 +130,12 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
-    mods: {
-      repo: "masturmynd/pandoras_box",
-      path: "Mods/*/*/",
-    },
+    mods: [
+      {
+        repo: "masturmynd/pandoras_box",
+        path: "Mods/*/*/",
+      },
+    ],
   },
   {
     id: "hex-zero",
@@ -142,10 +150,12 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "v0-mods",
-    mods: {
-      repo: "Alexander-T-Moss/Hex-Zero",
-      path: "Mods/*/*/",
-    },
+    mods: [
+      {
+        repo: "Alexander-T-Moss/Hex-Zero",
+        path: "Mods/*/*/",
+      },
+    ],
   },
   {
     id: "micron",
@@ -161,10 +171,12 @@ export const printers: PrinterConfig[] = [
     },
     documentation_pdf: "/pdfs/micron-manual.pdf",
     category: "scratch-builds",
-    mods: {
-      repo: "PrintersForAnts/Micron",
-      path: "Mods/*/*/",
-    },
+    mods: [
+      {
+        repo: "PrintersForAnts/Micron",
+        path: "Mods/*/*/",
+      },
+    ],
   },
   {
     id: "salad-fork",
@@ -179,6 +191,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "scratch-builds",
+    mods: [],
   },
   {
     id: "tiny-m",
@@ -193,10 +206,12 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     category: "barely-bigger",
-    mods: {
-      repo: "gsl12/Tiny-M",
-      path: "usermods/*/",
-    },
+    mods: [
+      {
+        repo: "gsl12/Tiny-M",
+        path: "usermods/*/",
+      },
+    ],
   },
   {
     id: "tiny-t",
@@ -211,9 +226,11 @@ export const printers: PrinterConfig[] = [
       readme: "readme.md",
     },
     category: "barely-bigger",
-    mods: {
-      repo: "PrintersForAnts/Tiny-T",
-      path: "MODS/*/",
-    },
+    mods: [
+      {
+        repo: "PrintersForAnts/Tiny-T",
+        path: "MODS/*/",
+      },
+    ],
   },
 ];
