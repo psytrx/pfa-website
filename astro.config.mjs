@@ -5,6 +5,14 @@ import tailwindcss from "@tailwindcss/vite";
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import YAML from "yaml";
+import { loadEnv } from "vite";
+
+const mode = process.env["NODE_ENV"] ?? "development";
+const { PUBLIC_SITE_URL } = loadEnv(mode, process.cwd(), "PUBLIC_");
+
+if (!PUBLIC_SITE_URL) {
+  throw new Error("PUBLIC_SITE_URL must be set");
+}
 
 const CATEGORIES = {
   "scratch-builds": "Scratch Builds",
@@ -49,7 +57,7 @@ function generatePrinterSidebar() {
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://replace-me.please.biz",
+  site: PUBLIC_SITE_URL,
   integrations: [
     starlight({
       title: "PrintersForAnts",
