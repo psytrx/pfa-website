@@ -6,7 +6,7 @@ import { loadEnv } from "vite";
 import { printers } from "./src/content/printers";
 
 const mode = env["NODE_ENV"] ?? "development";
-const { PUBLIC_SITE_URL } = loadEnv(mode, cwd(), "PUBLIC_");
+const { PUBLIC_SITE_URL, PUBLIC_DISCORD_URL } = loadEnv(mode, cwd(), "PUBLIC_");
 
 if (!PUBLIC_SITE_URL) {
   throw new Error("PUBLIC_SITE_URL must be set");
@@ -60,8 +60,17 @@ export default defineConfig({
         src: "./src/assets/anthead-hex.png",
       },
       social: [
+        ...(PUBLIC_DISCORD_URL?.trim()
+          ? [
+              {
+                icon: "discord" as const,
+                label: "Discord",
+                href: PUBLIC_DISCORD_URL.trim(),
+              },
+            ]
+          : []),
         {
-          icon: "github",
+          icon: "github" as const,
           label: "GitHub",
           href: "https://github.com/PrintersForAnts",
         },
