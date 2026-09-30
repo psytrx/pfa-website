@@ -144,7 +144,7 @@ export const printers: PrinterConfig[] = [
       readme: "README.md",
     },
     documentation_pdf:
-      "https://github.com/PrintersForAnts/Micron/blob/main/Documentation/Micron_R1_Manual_WIP.pdf",
+      "https://raw.githubusercontent.com/PrintersForAnts/Micron/main/Documentation/Micron_R1_Manual_WIP.pdf",
     category: "scratch-builds",
     mods: [
       {
