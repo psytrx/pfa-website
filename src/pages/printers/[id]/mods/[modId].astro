@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { marked } from "marked";
-import { useRelativeImageBase } from "../../../../utils/markdown";
+import { renderMarkdownWithRelativeImages } from "../../../../utils/markdown";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { LinkButton, LinkCard } from "@astrojs/starlight/components";
 
@@ -25,10 +24,10 @@ const rawBase = mod.githubUrl
   .replace("github.com", "raw.githubusercontent.com")
   .replace("/tree/", "/");
 
-useRelativeImageBase(rawBase);
-
 const html =
-  mod.readme && mod.readmeExtension === "md" ? marked(mod.readme) : null;
+  mod.readme && mod.readmeExtension === "md"
+    ? renderMarkdownWithRelativeImages(mod.readme, rawBase)
+    : null;
 ---
 
 <StarlightPage frontmatter={{ title: mod.name }}>

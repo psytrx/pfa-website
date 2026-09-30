@@ -1,10 +1,12 @@
 import type { Loader } from "astro/loaders";
 import { z } from "astro/zod";
 import { printers } from "../content/printers";
+import { resolveRelativeImageUrl } from "../utils/markdown";
 
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
 const CACHE_TTL_MS = 60 * 60 * 1000;
+const CACHE_VERSION = 2;
 const CACHE_META_PREFIX = "mods-loader:";
 
 const ModEntrySchema = z.object({
@@ -65,14 +67,13 @@ function extractThumbnail(
 ): string | null {
   if (!readme) return null;
 
-  const match = readme.match(/!\[.*?\]\(([^)]+)\)/);
-  if (!match || !match[1]) return null;
+  const match = readme.match(
+    /!\[[^\]]*\]\(\s*(?:<([^>]+)>|([^\s)]+))[^)]*\)|<img\b[^>]*\bsrc\s*=\s*(["'])(.*?)\3[^>]*>/i,
+  );
+  const href = match?.[1] ?? match?.[2] ?? match?.[4];
+  if (!href) return null;
 
-  let href = match[1];
-  if (!/^https?:\/\//.test(href)) {
-    href = `${rawBase}/${href.replace(/^\.\//, "")}`;
-  }
-  return href;
+  return resolveRelativeImageUrl(href, rawBase);
 }
 
 function extractDescription(readme: string | null): string | null {
@@ -325,9 +326,10 @@ export function modsLoader(): Loader {
         }
 
         const branch = printer.github.branch;
-        const source = JSON.stringify(
-          mods.map(({ repo, path }) => ({ repo, path, branch })),
-        );
+        const source = JSON.stringify({
+          version: CACHE_VERSION,
+          mods: mods.map(({ repo, path }) => ({ repo, path, branch })),
+        });
         const cacheState = parseCacheState(meta.get(metaKey));
         const matchingCache = cacheState?.source === source;
         const cachedEntryIds = matchingCache ? cacheState.entryIds : [];

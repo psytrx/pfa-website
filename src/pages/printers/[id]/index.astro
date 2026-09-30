@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import { marked } from "marked";
-import { useRelativeImageBase } from "../../../utils/markdown";
+import { renderMarkdownWithRelativeImages } from "../../../utils/markdown";
 import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
 import { LinkButton } from "@astrojs/starlight/components";
 
@@ -35,9 +34,7 @@ if (!readmeRes.ok) {
 
 const readme = await readmeRes.text();
 
-useRelativeImageBase(rawBase);
-
-const html = readme ? marked(readme) : null;
+const html = readme ? renderMarkdownWithRelativeImages(readme, rawBase) : null;
 ---
 
 <StarlightPage frontmatter={{ title }}>
