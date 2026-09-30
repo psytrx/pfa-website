@@ -3,20 +3,7 @@ import { z } from "astro/zod";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { ModEntrySchema, modsLoader } from "./loaders/mods-loader";
-import {
-  printers as printerData,
-  printerImagePaths,
-  type PrinterImagePath,
-} from "./content/printers";
-
-const printerImagePathSet = new Set(Object.values(printerImagePaths));
-
-function isPrinterImagePath(value: unknown): value is PrinterImagePath {
-  return (
-    typeof value === "string" &&
-    printerImagePathSet.has(value as PrinterImagePath)
-  );
-}
+import { printers as printerData } from "./content/printers";
 
 const printers = defineCollection({
   loader: () => printerData,
@@ -24,7 +11,6 @@ const printers = defineCollection({
     title: z.string(),
     subline: z.string(),
     description: z.string(),
-    image: z.custom<PrinterImagePath>(isPrinterImagePath),
     github: z.object({
       url: z.string(),
       branch: z.string(),

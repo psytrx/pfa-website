@@ -10,7 +10,8 @@ const printerImages = import.meta.glob<{ default: ImageMetadata }>(
   "../assets/printers/*-hero.png",
 );
 
-function loadPrinterImage(path: string) {
+function loadPrinterImage(id: string) {
+  const path = `../assets/printers/${id}-hero.png`;
   const loadImage = printerImages[path];
   if (!loadImage) {
     throw new Error(`Printer image not found: ${path}`);
@@ -46,7 +47,7 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
 
                 <a href={`/printers/${id}`}>
                   <Image
-                    src={loadPrinterImage(data.image)}
+                    src={loadPrinterImage(id)}
                     alt={data.title}
                     layout="constrained"
                     width="800"
