@@ -56,10 +56,6 @@ export default defineConfig({
     remotePatterns: [
       { protocol: "https", hostname: "raw.githubusercontent.com" },
       { protocol: "https", hostname: "github.com" },
-      {
-        protocol: "https",
-        hostname: "github-production-user-asset-6210df.s3.amazonaws.com",
-      },
       { protocol: "https", hostname: "i.imgur.com" },
       { protocol: "https", hostname: "user-images.githubusercontent.com" },
     ],
