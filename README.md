@@ -43,3 +43,7 @@ for README content and thumbnail selection is defined in
 
 Edit the homepage intro in `src/content/docs/index.mdx`; add documentation as
 Markdown or MDX under `src/content/docs/`.
+
+## Discord
+
+<https://discord.gg/mTM9x94aE>
