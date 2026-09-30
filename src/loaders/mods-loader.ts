@@ -7,7 +7,7 @@ const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
 const GITHUB_TOKEN = import.meta.env["GITHUB_TOKEN"];
 const CACHE_TTL_MS = 60 * 60 * 1000;
-const CACHE_VERSION = 4;
+const CACHE_VERSION = 6;
 const CACHE_META_PREFIX = "mods-loader:";
 const IMAGE_FILE_EXTENSION = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
 
@@ -66,6 +66,7 @@ type ModsForPrinter = z.infer<typeof ModsForPrinterSchema>;
 function extractThumbnail(
   readme: string | null,
   rawBase: string,
+  repositoryBase: string,
 ): string | null {
   if (!readme) return null;
 
@@ -75,7 +76,38 @@ function extractThumbnail(
   const href = match?.[1] ?? match?.[2] ?? match?.[4];
   if (!href) return null;
 
-  return resolveRelativeImageUrl(href, rawBase);
+  const resolvedHref =
+    href.startsWith("/") && !href.startsWith("//")
+      ? resolveRelativeImageUrl(href.slice(1), repositoryBase)
+      : resolveRelativeImageUrl(href, rawBase);
+
+  return normalizeGitHubBlobImageUrl(resolvedHref);
+}
+
+function normalizeGitHubBlobImageUrl(href: string): string {
+  try {
+    const url = new URL(href);
+    if (url.hostname !== "github.com") return href;
+
+    const [owner, repository, blob, branch, ...path] = url.pathname
+      .split("/")
+      .filter(Boolean);
+    if (
+      blob !== "blob" ||
+      !owner ||
+      !repository ||
+      !branch ||
+      path.length === 0
+    ) {
+      return href;
+    }
+
+    url.hostname = "raw.githubusercontent.com";
+    url.pathname = `/${[owner, repository, branch, ...path].join("/")}`;
+    return url.href;
+  } catch {
+    return href;
+  }
 }
 
 function extractFileThumbnail(
@@ -324,8 +356,9 @@ async function getModsForPrinter(
     }
 
     const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}/${dirPath}`;
+    const repositoryBase = `${GITHUB_RAW}/${owner}/${name}/${branch}`;
     const thumbnail =
-      extractThumbnail(readme, rawBase) ??
+      extractThumbnail(readme, rawBase, repositoryBase) ??
       extractFileThumbnail(tree, dirPath, rawBase);
 
     mods.push({

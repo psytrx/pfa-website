@@ -52,6 +52,18 @@ function generatePrinterSidebar() {
 // https://astro.build/config
 export default defineConfig({
   site: PUBLIC_SITE_URL,
+  image: {
+    remotePatterns: [
+      { protocol: "https", hostname: "raw.githubusercontent.com" },
+      { protocol: "https", hostname: "github.com" },
+      {
+        protocol: "https",
+        hostname: "github-production-user-asset-6210df.s3.amazonaws.com",
+      },
+      { protocol: "https", hostname: "i.imgur.com" },
+      { protocol: "https", hostname: "user-images.githubusercontent.com" },
+    ],
+  },
   integrations: [
     starlight({
       title: "PrintersForAnts",

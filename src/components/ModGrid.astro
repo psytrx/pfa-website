@@ -1,5 +1,6 @@
 ---
 import { Card, CardGrid, LinkButton } from "@astrojs/starlight/components";
+import { Image } from "astro:assets";
 
 interface Props {
   printerId: string;
@@ -25,7 +26,7 @@ const sortedMods = [...mods].sort((a, b) => {
 
 <CardGrid>
   {
-    sortedMods.map((mod) => (
+    sortedMods.map((mod, i) => (
       <Card title={mod.name}>
         <div class="flex flex-col items-start gap-2">
           <p class="text-sm text-(--sl-color-gray-3) italic">
@@ -34,11 +35,14 @@ const sortedMods = [...mods].sort((a, b) => {
 
           {mod.thumbnail && (
             <a href={`/printers/${printerId}/mods/${mod.id}/`}>
-              <img
+              <Image
                 src={mod.thumbnail}
                 alt={mod.name}
+                width={640}
+                height={360}
+                format="webp"
                 class="aspect-video w-full rounded object-cover"
-                loading="lazy"
+                loading={i <= 3 ? "eager" : "lazy"}
               />
             </a>
           )}
