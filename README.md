@@ -2,6 +2,10 @@
 
 A community directory of compact 3D printers, with printer details, documentation, and community mods.
 
+During development and builds, this site crawls the GitHub repositories in
+`src/content/printers.ts` for printer READMEs, mods, and mod descriptions. Set
+`GITHUB_TOKEN` in `.env` to avoid GitHub API rate limits.
+
 **[pfa-website.fdu.workers.dev](https://pfa-website.fdu.workers.dev/)**
 
 Hosted on Cloudflare Workers.
