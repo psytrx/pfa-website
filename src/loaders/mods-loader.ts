@@ -5,6 +5,7 @@ import { resolveRelativeImageUrl } from "../utils/markdown";
 
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
+const GITHUB_TOKEN = import.meta.env["GITHUB_TOKEN"];
 const CACHE_TTL_MS = 60 * 60 * 1000;
 const CACHE_VERSION = 4;
 const CACHE_META_PREFIX = "mods-loader:";
@@ -144,7 +145,10 @@ type GitHubTree = z.infer<typeof GitHubTreeSchema>;
 
 async function fetchGitHubTree(url: string): Promise<GitHubTree> {
   const res = await fetch(url, {
-    headers: { Accept: "application/vnd.github+json" },
+    headers: {
+      Accept: "application/vnd.github+json",
+      ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
+    },
   });
   if (!res.ok) {
     const text = await res.text();
