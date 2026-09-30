@@ -14,55 +14,47 @@ interface Props {
 
 const { printerId, mods } = Astro.props;
 
-const modsByAuthor = mods.reduce<Record<string, typeof mods>>((acc, mod) => {
-  const key = mod.author || "Other";
-  (acc[key] ??= []).push(mod);
-  return acc;
-}, {});
-
-const sortedAuthors = Object.keys(modsByAuthor).sort((a, b) => {
-  if (a === "Other") return 1;
-  if (b === "Other") return -1;
-  return a.localeCompare(b);
+const sortedMods = [...mods].sort((a, b) => {
+  const authorA = a.author || "Other";
+  const authorB = b.author || "Other";
+  if (authorA === "Other") return authorB === "Other" ? 0 : 1;
+  if (authorB === "Other") return -1;
+  return authorA.localeCompare(authorB);
 });
 ---
 
-<div class="grid gap-8">
+<CardGrid>
   {
-    sortedAuthors.map((author) => (
-      <section>
-        <h3>{author}</h3>
+    sortedMods.map((mod) => (
+      <Card title={mod.name}>
+        <div class="flex flex-col items-start gap-2">
+          <p class="text-sm text-(--sl-color-gray-3) italic">
+            by {mod.author || "Other"}
+          </p>
 
-        <CardGrid>
-          {modsByAuthor[author]?.map((mod) => (
-            <Card title={mod.name}>
-              <div class="flex flex-col items-start gap-2">
-                {mod.thumbnail && (
-                  <a href={`/printers/${printerId}/mods/${mod.id}/`}>
-                    <img
-                      src={mod.thumbnail}
-                      alt={mod.name}
-                      class="aspect-video w-full rounded object-cover"
-                      loading="lazy"
-                    />
-                  </a>
-                )}
+          {mod.thumbnail && (
+            <a href={`/printers/${printerId}/mods/${mod.id}/`}>
+              <img
+                src={mod.thumbnail}
+                alt={mod.name}
+                class="aspect-video w-full rounded object-cover"
+                loading="lazy"
+              />
+            </a>
+          )}
 
-                <p class="text-sm text-(--sl-color-gray-3)">
-                  {mod.description ?? "No description available."}
-                </p>
+          <p class="text-sm text-(--sl-color-gray-3)">
+            {mod.description ?? "No description available."}
+          </p>
 
-                <LinkButton
-                  href={`/printers/${printerId}/mods/${mod.id}/`}
-                  variant="secondary"
-                >
-                  View mod details
-                </LinkButton>
-              </div>
-            </Card>
-          ))}
-        </CardGrid>
-      </section>
+          <LinkButton
+            href={`/printers/${printerId}/mods/${mod.id}/`}
+            variant="secondary"
+          >
+            View mod details
+          </LinkButton>
+        </div>
+      </Card>
     ))
   }
-</div>
+</CardGrid>
