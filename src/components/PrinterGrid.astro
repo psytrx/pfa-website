@@ -38,31 +38,42 @@ const grouped = Object.entries(categories).map(([key, label]) => ({
         <h2>{label}</h2>
 
         <CardGrid>
-          {items.map(({ id, data }) => (
-            <Card title={data.title}>
-              <div class="flex flex-col items-center gap-4">
-                <p class="mb-4 w-full text-left text-balance text-(--sl-color-gray-3) italic">
-                  {data.subline}
-                </p>
+          {items.map(({ id, data }) => {
+            const developer = new URL(data.github.url).pathname
+              .split("/")
+              .filter(Boolean)[0];
 
-                <a href={`/printers/${id}`}>
-                  <Image
-                    src={loadPrinterImage(id)}
-                    alt={data.title}
-                    layout="constrained"
-                    width="800"
-                    class="aspect-square object-contain"
-                  />
-                </a>
+            return (
+              <Card title={data.title}>
+                <div class="flex flex-col items-center gap-4">
+                  <p class="mb-4 w-full text-left text-balance text-(--sl-color-gray-3) italic">
+                    {data.subline}
+                  </p>
 
-                <p class="text-center text-balance">{data.description}</p>
+                  <a href={`/printers/${id}`}>
+                    <Image
+                      src={loadPrinterImage(id)}
+                      alt={data.title}
+                      layout="constrained"
+                      width="800"
+                      class="aspect-square object-contain"
+                    />
+                  </a>
 
-                <LinkButton href={`/printers/${id}`} variant="secondary">
-                  View printer details
-                </LinkButton>
-              </div>
-            </Card>
-          ))}
+                  <p class="text-center text-balance">{data.description}</p>
+
+                  <p class="text-sm text-(--sl-color-gray-3)">
+                    Developer:{" "}
+                    <a href={`https://github.com/${developer}`}>{developer}</a>
+                  </p>
+
+                  <LinkButton href={`/printers/${id}`} variant="secondary">
+                    View printer details
+                  </LinkButton>
+                </div>
+              </Card>
+            );
+          })}
         </CardGrid>
       </section>
     ))

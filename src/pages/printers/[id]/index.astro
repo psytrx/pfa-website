@@ -13,11 +13,14 @@ export async function getStaticPaths() {
     props: {
       title: p.data.title,
       github: p.data.github,
+      developer: new URL(p.data.github.url).pathname
+        .split("/")
+        .filter(Boolean)[0],
     },
   }));
 }
 
-const { title, github } = Astro.props;
+const { title, github, developer } = Astro.props;
 
 const [owner, name] = new URL(github.url).pathname
   .replace(/^\/+/, "")
@@ -47,6 +50,10 @@ const html = readme ? renderMarkdownWithRelativeImages(readme, rawBase) : null;
     >
       View on GitHub
     </LinkButton>
+
+    <p class="text-sm text-(--sl-color-gray-3)">
+      Developer: <a href={`https://github.com/${developer}`}>{developer}</a>
+    </p>
 
     {
       html ? (
