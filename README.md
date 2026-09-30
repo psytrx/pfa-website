@@ -1,49 +1,31 @@
-# Starlight Starter Kit: Basics
+# pfa-website
 
-[![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
+A community directory of compact 3D printers, with printer details, documentation, and community mods.
 
-```
-bun create astro@latest -- --template starlight
-```
+**[pfa-website.fdu.workers.dev](https://pfa-website.fdu.workers.dev/)**
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Hosted on Cloudflare Workers.
 
-## 🚀 Project Structure
+## Getting started
 
-Inside of your Astro + Starlight project, you'll see the following folders and files:
+Requires [Bun](https://bun.sh/).
 
-```
-.
-├── public/
-├── src/
-│   ├── assets/
-│   ├── content/
-│   │   └── docs/
-│   └── content.config.ts
-├── astro.config.mjs
-├── package.json
-└── tsconfig.json
+Install dependencies:
+
+```sh
+bun install
 ```
 
-Starlight looks for `.md` or `.mdx` files in the `src/content/docs/` directory. Each file is exposed as a route based on its file name.
+Copy the example environment file:
 
-Images can be added to `src/assets/` and embedded in Markdown with a relative link.
+```sh
+cp .env.example .env
+```
 
-Static assets, like favicons, can be placed in the `public/` directory.
+Start the development server:
 
-## 🧞 Commands
+```sh
+bun dev
+```
 
-All commands are run from the root of the project, from a terminal:
-
-| Command               | Action                                           |
-| :-------------------- | :----------------------------------------------- |
-| `bun install`         | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Check out [Starlight’s docs](https://starlight.astro.build/), read [the Astro documentation](https://docs.astro.build), or jump into the [Astro Discord server](https://astro.build/chat).
+Open [http://localhost:4321](http://localhost:4321).
