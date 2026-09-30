@@ -6,8 +6,9 @@ import { resolveRelativeImageUrl } from "../utils/markdown";
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
 const CACHE_TTL_MS = 60 * 60 * 1000;
-const CACHE_VERSION = 3;
+const CACHE_VERSION = 4;
 const CACHE_META_PREFIX = "mods-loader:";
+const IMAGE_FILE_EXTENSION = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i;
 
 const ModEntrySchema = z.object({
   id: z.string(),
@@ -74,6 +75,23 @@ function extractThumbnail(
   if (!href) return null;
 
   return resolveRelativeImageUrl(href, rawBase);
+}
+
+function extractFileThumbnail(
+  tree: GitHubTree,
+  dirPath: string,
+  rawBase: string,
+): string | null {
+  const image = tree.tree.find(
+    (entry) =>
+      entry.type === "blob" &&
+      entry.path.startsWith(`${dirPath}/`) &&
+      IMAGE_FILE_EXTENSION.test(entry.path),
+  );
+
+  return image
+    ? resolveRelativeImageUrl(image.path.slice(dirPath.length + 1), rawBase)
+    : null;
 }
 
 function extractDescription(readme: string | null): string | null {
@@ -302,6 +320,9 @@ async function getModsForPrinter(
     }
 
     const rawBase = `${GITHUB_RAW}/${owner}/${name}/${branch}/${dirPath}`;
+    const thumbnail =
+      extractThumbnail(readme, rawBase) ??
+      extractFileThumbnail(tree, dirPath, rawBase);
 
     mods.push({
       id: `${owner}-${name}-${dirPath}`.replace(/[/.]/g, "-").toLowerCase(),
@@ -309,7 +330,7 @@ async function getModsForPrinter(
       name: formatName(modName),
       author: author ? formatName(author) : "",
       description: extractDescription(readme),
-      thumbnail: extractThumbnail(readme, rawBase),
+      thumbnail,
       path: dirPath,
       readme,
       readmeExtension,
