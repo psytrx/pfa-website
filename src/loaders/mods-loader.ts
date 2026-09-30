@@ -6,7 +6,7 @@ import { resolveRelativeImageUrl } from "../utils/markdown";
 const GITHUB_API = "https://api.github.com";
 const GITHUB_RAW = "https://raw.githubusercontent.com";
 const CACHE_TTL_MS = 60 * 60 * 1000;
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 const CACHE_META_PREFIX = "mods-loader:";
 
 const ModEntrySchema = z.object({
@@ -238,24 +238,31 @@ async function getModsForPrinter(
     }
   }
 
-  const readmeFiles = tree.tree.filter(
-    (e) =>
-      e.type === "blob" &&
-      e.path.startsWith(prefix + "/") &&
-      /^readme\.(md|txt|markdown)$/i.test(e.path.split("/").pop() || ""),
-  );
+  const readmeFiles = tree.tree.filter((e) => {
+    if (e.type !== "blob" || !e.path.startsWith(prefix + "/")) return false;
+
+    const relativePath = e.path.slice(prefix.length + 1).split("/");
+    const filename = relativePath.at(-1) || "";
+    return (
+      relativePath.length === depth + 1 &&
+      filename.split(".")[0]?.toLowerCase() === "readme"
+    );
+  });
 
   const readmeMap = new Map<string, ReadmeInfo>();
   for (const rf of readmeFiles) {
-    const rel = rf.path.slice(prefix.length + 1);
-    const parentParts = rel.split("/").slice(0, depth);
+    const rel = rf.path.slice(prefix.length + 1).split("/");
+    const parentParts = rel.slice(0, depth);
     const parentPath = prefix + "/" + parentParts.join("/");
-    const ext = rf.path.split(".").pop() || "md";
+    const filename = rel.at(-1)?.toLowerCase() || "";
+    const extension = filename.includes(".")
+      ? filename.split(".").pop() || "md"
+      : "md";
     readmeMap.set(
       parentPath,
       ReadmeInfoSchema.parse({
         path: rf.path,
-        extension: ext,
+        extension,
         sha: rf.sha,
       }),
     );
