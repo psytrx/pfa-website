@@ -69,7 +69,7 @@ export default defineConfig({
       customCss: ["./src/styles/global.css"],
       sidebar: generatePrinterSidebar(),
       components: {
-        Footer: "./src/components/CustomFooter.astro",
+        Footer: "./src/components/Footer.astro",
       },
     }),
   ],
