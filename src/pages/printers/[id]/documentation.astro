@@ -12,20 +12,35 @@ export async function getStaticPaths() {
     return [
       {
         params: { id: printer.id },
-        props: { title: printer.data.title, pdfUrl },
+        props: {
+          title: printer.data.title,
+          pdfUrl,
+          githubUrl: printer.data.github.url,
+        },
       },
     ];
   });
 }
 
-const { title, pdfUrl } = Astro.props;
+const { title, pdfUrl, githubUrl } = Astro.props;
 ---
 
 <StarlightPage frontmatter={{ title: `${title} Documentation` }}>
-  <object data={pdfUrl} type="application/pdf" class="h-[90vh] w-full">
-    <p>
-      Your browser does not support embedded PDFs.
-      <a href={pdfUrl} download>Download the manual</a> instead.
-    </p>
-  </object>
+  <div class="space-y-8">
+    <LinkButton
+      href={githubUrl}
+      icon="github"
+      target="_blank"
+      variant="secondary"
+    >
+      View on GitHub
+    </LinkButton>
+
+    <object data={pdfUrl} type="application/pdf" class="h-[90vh] w-full">
+      <p>
+        Your browser does not support embedded PDFs.
+        <a href={pdfUrl} download>Download the manual</a> instead.
+      </p>
+    </object>
+  </div>
 </StarlightPage>
